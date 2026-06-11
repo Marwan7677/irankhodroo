@@ -2,8 +2,8 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ایران خودرو | فروشگاه رسمی IKCO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>فروشگاه رسمی ایران خودرو | IKCO | پرداخت با TON</title>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js"></script>
 <style>
@@ -26,6 +26,7 @@ body {
     background: var(--dark);
     color: var(--white);
     overflow-x: hidden;
+    scroll-behavior: smooth;
 }
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--dark2); }
@@ -87,7 +88,7 @@ body {
 /* هدر */
 header {
     position: fixed; top: 0; left: 0; right: 0;
-    background: rgba(10,10,15,0.95);
+    background: rgba(10,10,15,0.96);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid rgba(255,255,255,0.08);
     padding: 0 40px;
@@ -158,11 +159,11 @@ nav a:hover, nav a.active { color: var(--red); background: rgba(200,16,46,0.1); 
     color: black;
     width: 18px; height: 18px;
     border-radius: 50%;
-    font-size: 0.7rem;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: 700;
+    font-size: 0.7rem;
 }
 
 /* Hero */
@@ -176,7 +177,7 @@ nav a:hover, nav a.active { color: var(--red); background: rgba(200,16,46,0.1); 
 }
 .hero-bg {
     position: absolute; inset: 0;
-    background: radial-gradient(ellipse 80% 60% at 50% 120%, rgba(200,16,46,0.15) 0%, transparent 70%);
+    background: radial-gradient(ellipse 80% 60% at 50% 120%, rgba(200,16,46,0.2) 0%, transparent 70%);
 }
 .hero-content {
     position: relative;
@@ -380,14 +381,10 @@ nav a:hover, nav a.active { color: var(--red); background: rgba(200,16,46,0.1); 
 }
 .btn-buy:hover { opacity: 0.9; }
 
-/* بخش پیش‌فروش */
+/* پیش‌فروش */
 .presale-section {
     padding: 60px 40px;
     background: linear-gradient(135deg, #0a1a2a, #051525);
-}
-.presale-banner {
-    max-width: 1200px;
-    margin: 0 auto;
 }
 .presale-grid {
     display: grid;
@@ -429,8 +426,9 @@ nav a:hover, nav a.active { color: var(--red); background: rgba(200,16,46,0.1); 
     cursor: pointer;
     font-family: 'Vazirmatn', sans-serif;
 }
+.btn-presale:hover { background: rgba(212,160,23,0.3); }
 
-/* بخش پرداخت TON */
+/* پرداخت TON */
 .payment-section {
     padding: 60px 40px;
     background: linear-gradient(135deg, #061525, #0A1E35);
@@ -442,22 +440,6 @@ nav a:hover, nav a.active { color: var(--red); background: rgba(200,16,46,0.1); 
     grid-template-columns: 1fr 1fr;
     gap: 50px;
     align-items: center;
-}
-.payment-features { margin-top: 20px; }
-.payment-feature {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
-}
-.pf-icon {
-    width: 36px;
-    height: 36px;
-    background: rgba(0,136,204,0.15);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 .ton-widget {
     background: var(--dark);
@@ -499,8 +481,6 @@ nav a:hover, nav a.active { color: var(--red); background: rgba(200,16,46,0.1); 
     margin-top: 15px;
     font-family: 'Vazirmatn', sans-serif;
 }
-
-/* ویژگی‌ها */
 .features-section {
     padding: 60px 40px;
     max-width: 1200px;
@@ -518,11 +498,6 @@ nav a:hover, nav a.active { color: var(--red); background: rgba(200,16,46,0.1); 
     padding: 30px;
     text-align: center;
 }
-.feature-icon { font-size: 2.5rem; margin-bottom: 15px; }
-.feature-title { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
-.feature-desc { font-size: 0.8rem; color: var(--gray); }
-
-/* فوتر */
 footer {
     background: var(--dark2);
     padding: 50px 40px 30px;
@@ -538,7 +513,7 @@ footer {
 .footer-col h4 { margin-bottom: 15px; font-size: 1rem; }
 .footer-col ul { list-style: none; }
 .footer-col li { margin-bottom: 8px; }
-.footer-col a { color: var(--gray); text-decoration: none; font-size: 0.85rem; }
+.footer-col a { color: var(--gray); text-decoration: none; font-size: 0.85rem; cursor: pointer; }
 .footer-col a:hover { color: var(--red); }
 .social-links { display: flex; gap: 10px; margin-top: 15px; }
 .social-btn {
@@ -558,9 +533,11 @@ footer {
     border-top: 1px solid rgba(255,255,255,0.08);
     color: var(--gray);
     font-size: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
-
-/* ==================== مودال‌های اصلی ==================== */
+/* مودال‌ها */
 .modal {
     display: none;
     position: fixed;
@@ -574,7 +551,6 @@ footer {
     justify-content: center;
     z-index: 1000;
 }
-
 .modal-content {
     background: linear-gradient(135deg, var(--dark2), var(--dark3));
     border-radius: 32px;
@@ -585,56 +561,17 @@ footer {
     box-shadow: 0 25px 50px rgba(0,0,0,0.5);
     animation: modalFadeIn 0.3s ease;
 }
-
 @keyframes modalFadeIn {
-    from { opacity: 0; transform: scale(0.95); }
-    to { opacity: 1; transform: scale(1); }
+    from { opacity: 0; transform: scale(0.95);}
+    to { opacity: 1; transform: scale(1);}
 }
-
-.modal-content h2, .modal-content h3 {
-    color: var(--white);
-    margin-bottom: 20px;
-    font-size: 1.5rem;
-    text-align: center;
-}
-
-.modal-content input {
-    width: 100%;
-    padding: 14px 16px;
-    margin: 12px 0;
-    background: var(--dark);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 14px;
-    color: var(--white);
-    font-family: 'Vazirmatn', sans-serif;
-    font-size: 0.95rem;
-    transition: all 0.2s;
-}
-
-.modal-content input:focus {
-    outline: none;
-    border-color: var(--red);
-    box-shadow: 0 0 0 2px rgba(200,16,46,0.2);
-}
-
-.modal-content input::placeholder {
-    color: var(--gray);
-}
-
 .close-modal {
     float: left;
     font-size: 1.8rem;
     cursor: pointer;
     color: var(--gray);
-    transition: color 0.2s;
-    line-height: 1;
 }
-
-.close-modal:hover {
-    color: var(--red);
-}
-
-/* تب‌های ورود/ثبت‌نام */
+.close-modal:hover { color: var(--red); }
 .tab-buttons {
     display: flex;
     gap: 15px;
@@ -642,7 +579,6 @@ footer {
     border-bottom: 2px solid rgba(255,255,255,0.1);
     padding-bottom: 10px;
 }
-
 .tab-btn {
     flex: 1;
     padding: 12px;
@@ -650,25 +586,44 @@ footer {
     border: none;
     color: var(--gray);
     cursor: pointer;
-    font-size: 1rem;
     font-weight: 600;
-    font-family: 'Vazirmatn', sans-serif;
-    transition: all 0.2s;
-    border-radius: 10px;
 }
-
 .tab-btn.active {
     color: var(--red);
     background: rgba(200,16,46,0.1);
+    border-radius: 10px;
 }
-
-/* سبد خرید */
+.modal-content input {
+    width: 100%;
+    padding: 14px;
+    margin: 12px 0;
+    background: var(--dark);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    color: white;
+}
+.modal-btn {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+}
+.modal-btn-primary {
+    background: linear-gradient(135deg, var(--red), var(--red-dark));
+    color: white;
+}
+.modal-btn-secondary {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: var(--gray);
+}
 .cart-items-list {
     max-height: 400px;
     overflow-y: auto;
-    margin: 20px 0;
 }
-
 .cart-item {
     display: flex;
     justify-content: space-between;
@@ -676,135 +631,34 @@ footer {
     padding: 15px 0;
     border-bottom: 1px solid rgba(255,255,255,0.08);
     flex-wrap: wrap;
-    gap: 10px;
 }
-
-.cart-item-info {
-    flex: 2;
-    min-width: 120px;
-}
-
-.cart-item-name {
-    font-weight: 600;
-    margin-bottom: 4px;
-}
-
-.cart-item-price {
-    font-size: 0.8rem;
-    color: var(--gray);
-}
-
 .cart-item-actions {
     display: flex;
-    align-items: center;
     gap: 8px;
+    align-items: center;
 }
-
 .cart-qty-btn {
     width: 30px;
     height: 30px;
     background: var(--dark3);
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 8px;
-    color: var(--white);
     cursor: pointer;
-    font-size: 1rem;
-    transition: all 0.2s;
 }
-
-.cart-qty-btn:hover {
-    background: var(--red);
-}
-
-.cart-item-quantity {
-    min-width: 30px;
-    text-align: center;
-}
-
-.cart-item-total {
-    font-weight: 700;
-    color: var(--red);
-    min-width: 120px;
-    text-align: left;
-}
-
+.cart-qty-btn:hover { background: var(--red); }
 .cart-remove-btn {
     background: rgba(200,16,46,0.2);
     border: 1px solid rgba(200,16,46,0.3);
     border-radius: 8px;
-    color: var(--red);
     padding: 6px 12px;
     cursor: pointer;
-    font-size: 0.75rem;
-    transition: all 0.2s;
 }
-
-.cart-remove-btn:hover {
-    background: var(--red);
-    color: white;
-}
-
 .cart-total {
     font-size: 1.3rem;
     font-weight: 800;
     margin: 20px 0;
-    padding-top: 15px;
-    border-top: 2px solid rgba(255,255,255,0.1);
     text-align: left;
 }
-
-.cart-total span {
-    color: var(--red);
-    font-size: 1.5rem;
-}
-
-.empty-cart {
-    text-align: center;
-    padding: 40px;
-    color: var(--gray);
-}
-
-.empty-cart-icon {
-    font-size: 3rem;
-    margin-bottom: 15px;
-}
-
-/* دکمه‌های مودال */
-.modal-btn {
-    width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 14px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    font-family: 'Vazirmatn', sans-serif;
-    margin-top: 10px;
-}
-
-.modal-btn-primary {
-    background: linear-gradient(135deg, var(--red), var(--red-dark));
-    color: white;
-}
-
-.modal-btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(200,16,46,0.3);
-}
-
-.modal-btn-secondary {
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.2);
-    color: var(--gray);
-}
-
-.modal-btn-secondary:hover {
-    border-color: var(--red);
-    color: var(--red);
-}
-
-/* نوتیفیکیشن */
 .notification {
     position: fixed;
     bottom: 30px;
@@ -814,64 +668,26 @@ footer {
     border-radius: 14px;
     padding: 14px 22px;
     display: flex;
-    align-items: center;
     gap: 12px;
     transform: translateX(400px);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s;
     z-index: 1100;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
-
 .notification.show { transform: translateX(0); }
-
-.notif-icon { font-size: 1.3rem; }
-.notif-text { font-size: 0.9rem; }
-
-/* انیمیشن‌ها */
 .reveal {
     opacity: 0;
     transform: translateY(30px);
     transition: all 0.6s;
 }
 .reveal.visible { opacity: 1; transform: translateY(0); }
-
-/* دکمه ریست سبد خرید (اضطراری) */
-.reset-cart-btn {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    background: rgba(200,16,46,0.8);
-    color: white;
-    border: none;
-    border-radius: 30px;
-    padding: 8px 16px;
-    font-size: 12px;
-    cursor: pointer;
-    z-index: 999;
-    font-family: 'Vazirmatn', sans-serif;
-    backdrop-filter: blur(5px);
-}
-.reset-cart-btn:hover {
-    background: var(--red);
-}
-
-/* ریسپانسیو */
 @media (max-width: 768px) {
     header { padding: 0 20px; }
     nav { display: none; }
-    .hero-content { grid-template-columns: 1fr; padding: 20px; }
-    .hero-title { font-size: 2rem; }
-    .products-grid { grid-template-columns: 1fr; }
-    .presale-grid { grid-template-columns: 1fr; }
+    .hero-content { grid-template-columns: 1fr; }
+    .products-grid, .presale-grid, .features-grid { grid-template-columns: 1fr; }
     .payment-banner { grid-template-columns: 1fr; }
-    .features-grid { grid-template-columns: repeat(2, 1fr); }
     .footer-grid { grid-template-columns: 1fr; }
-    .products-section, .presale-section, .payment-section, .features-section { padding: 40px 20px; }
-    .hero { padding-top: 120px; }
-    .modal-content { padding: 24px; margin: 16px; width: calc(100% - 32px); }
-    .cart-item { flex-direction: column; align-items: flex-start; }
-    .cart-item-total { text-align: right; width: 100%; }
-    .reset-cart-btn { bottom: 10px; left: 10px; font-size: 10px; padding: 6px 12px; }
+    .hero-title { font-size: 2rem; }
 }
 </style>
 </head>
@@ -880,30 +696,26 @@ footer {
 <div id="loader">
     <div class="loader-logo">IKCO STORE</div>
     <div class="loader-bar"><div class="loader-bar-fill"></div></div>
-    <div style="color:var(--gray)">در حال بارگذاری...</div>
+    <div style="color:var(--gray)">بارگذاری فروشگاه رسمی ایران خودرو...</div>
 </div>
 
-<div class="ticker">
-    <div class="ticker-inner" id="tickerInner"></div>
-</div>
+<div class="ticker"><div class="ticker-inner" id="tickerInner"></div></div>
 
 <header>
-    <a href="#" class="header-logo">
+    <a href="#" class="header-logo" id="homeLink">
         <div class="logo-icon">IK</div>
         <div><div class="logo-text">ایران خودرو</div><div class="logo-sub">IRAN KHODRO CO.</div></div>
     </a>
     <nav>
-        <a href="#" class="active">خانه</a>
-        <a href="#products">محصولات</a>
-        <a href="#presale">پیش‌فروش</a>
-        <a href="#payment">پرداخت TON</a>
+        <a href="#products" class="nav-link">محصولات</a>
+        <a href="#presale" class="nav-link">پیش‌فروش</a>
+        <a href="#payment" class="nav-link">پرداخت TON</a>
+        <a href="#features" class="nav-link">مزایا</a>
+        <a href="#contact" class="nav-link" id="contactLink">تماس با ما</a>
     </nav>
     <div class="header-actions">
         <button class="btn-login" id="btnLogin">ورود / ثبت‌نام</button>
-        <div class="btn-cart" id="cartBtn">
-            🛒
-            <div class="cart-badge" id="cartBadge">0</div>
-        </div>
+        <div class="btn-cart" id="cartBtn">🛒<div class="cart-badge" id="cartBadge">0</div></div>
     </div>
 </header>
 
@@ -929,7 +741,7 @@ footer {
             <div class="car-display">🚗</div>
             <div class="car-name">پژو پارس سال</div>
             <div class="car-specs"><span class="car-spec">۱۶۰۰ سی‌سی</span><span class="car-spec">دستی</span><span class="car-spec">بنزینی</span></div>
-            <div class="car-price">۱,۸۵۰,۰۰۰,۰۰۰ تومان</div>
+            <div class="car-price" id="heroPrice">۱,۸۵۰,۰۰۰,۰۰۰ تومان</div>
             <div class="car-price-old">۲,۰۰۰,۰۰۰,۰۰۰ تومان</div>
             <div class="discount-badge">-۱۵٪ تخفیف ویژه</div>
         </div>
@@ -938,12 +750,12 @@ footer {
 
 <section class="products-section reveal" id="products">
     <h2 class="section-title">🚗 محصولات <span>ایران خودرو</span></h2>
-    <div class="products-tabs">
-        <button class="tab active" onclick="filterProducts('all')">همه</button>
-        <button class="tab" onclick="filterProducts('sedan')">سواری</button>
-        <button class="tab" onclick="filterProducts('suv')">شاسی‌بلند</button>
-        <button class="tab" onclick="filterProducts('hatch')">هاچ‌بک</button>
-        <button class="tab" onclick="filterProducts('electric')">برقی</button>
+    <div class="products-tabs" id="tabsContainer">
+        <button class="tab active" data-cat="all">همه</button>
+        <button class="tab" data-cat="sedan">سواری</button>
+        <button class="tab" data-cat="suv">شاسی‌بلند</button>
+        <button class="tab" data-cat="hatch">هاچ‌بک</button>
+        <button class="tab" data-cat="electric">برقی</button>
     </div>
     <div class="products-grid" id="productsGrid"></div>
 </section>
@@ -960,540 +772,225 @@ footer {
         <div>
             <h2 class="section-title">💎 پرداخت ارزی با <span style="color:#60CCFF">تون‌کوین</span></h2>
             <p style="color:var(--gray); line-height:1.8">با استفاده از شبکه TON Blockchain، خودروی خود را با ارز دیجیتال خریداری کنید. امن، سریع و بدون کارمزد اضافه.</p>
-            <div class="payment-features">
-                <div class="payment-feature"><div class="pf-icon">🔒</div><div>پرداخت امن با بلاک‌چین TON</div></div>
-                <div class="payment-feature"><div class="pf-icon">⚡</div><div>تسویه آنی در کمتر از ۳ ثانیه</div></div>
-                <div class="payment-feature"><div class="pf-icon">🌍</div><div>قابل استفاده برای ایرانیان خارج از کشور</div></div>
-                <div class="payment-feature"><div class="pf-icon">💱</div><div>تبدیل خودکار نرخ لحظه‌ای</div></div>
-                <div class="payment-feature"><div class="pf-icon">🎁</div><div>۳٪ تخفیف اضافه برای پرداخت با TON</div></div>
-            </div>
+            <div class="payment-features" id="paymentFeatures"></div>
         </div>
         <div class="ton-widget">
-            <div class="ton-header">
-                <div class="ton-logo">TON</div>
-                <div><h3>درگاه پرداخت TON</h3><p>پرداخت ارزی ایران خودرو</p></div>
-            </div>
+            <div class="ton-header"><div class="ton-logo">TON</div><div><h3>درگاه پرداخت TON</h3><p>پرداخت ارزی ایران خودرو</p></div></div>
             <div class="ton-rate-value" id="tonRate">در حال دریافت نرخ...</div>
-            <div class="ton-input-group">
-                <div class="ton-input-label">مبلغ به تومان</div>
-                <input type="text" class="ton-input" id="tomanAmount" placeholder="مثال: ۸۵۰,۰۰۰,۰۰۰" oninput="calculateTon()">
-            </div>
-            <div class="ton-input-group">
-                <div class="ton-input-label">معادل تون‌کوین</div>
-                <input type="text" class="ton-input" id="tonAmount" placeholder="۰.۰۰ TON" readonly>
-            </div>
-            <div class="ton-input-group">
-                <div class="ton-input-label">آدرس کیف پول TON</div>
-                <input type="text" class="ton-input" id="walletAddress" placeholder="EQ... آدرس کیف پول خود را وارد کنید" style="direction:ltr">
-            </div>
+            <div class="ton-input-group"><div>مبلغ به تومان</div><input type="text" class="ton-input" id="tomanAmount" placeholder="مثال: 850,000,000" oninput="calculateTon()"></div>
+            <div class="ton-input-group"><div>معادل تون‌کوین</div><input type="text" class="ton-input" id="tonAmount" placeholder="۰.۰۰ TON" readonly></div>
+            <div class="ton-input-group"><div>آدرس کیف پول TON (دریافت)</div><input type="text" class="ton-input" id="walletAddress" placeholder="EQ... آدرس کیف پول خود را وارد کنید"></div>
             <button class="btn-ton-pay" onclick="payWithTon()">💎 اتصال و پرداخت با TON</button>
         </div>
     </div>
 </section>
 
-<section class="features-section reveal">
+<section class="features-section reveal" id="features">
     <h2 class="section-title">✨ چرا ایران خودرو <span>آنلاین</span>؟</h2>
-    <div class="features-grid">
-        <div class="feature-card"><div class="feature-icon">🏭</div><div class="feature-title">مستقیم از کارخانه</div><div class="feature-desc">خرید بدون واسطه با قیمت کارخانه و ضمانت اصالت</div></div>
-        <div class="feature-card"><div class="feature-icon">🛡️</div><div class="feature-title">ضمانت ۳ ساله</div><div class="feature-desc">گارانتی کامل کارخانه با پوشش تمام قطعات</div></div>
-        <div class="feature-card"><div class="feature-icon">🚚</div><div class="feature-title">تحویل سراسری</div><div class="feature-desc">تحویل به تمام نقاط ایران در کمترین زمان ممکن</div></div>
-        <div class="feature-card"><div class="feature-icon">💳</div><div class="feature-title">اقساط بلندمدت</div><div class="feature-desc">پرداخت اقساطی تا ۶۰ ماه با سود مناسب</div></div>
-    </div>
+    <div class="features-grid" id="featuresGrid"></div>
 </section>
 
-<footer>
+<footer id="contact">
     <div class="footer-grid">
-        <div class="footer-col">
-            <div class="logo-icon" style="margin-bottom:15px">IK</div>
-            <p style="color:var(--gray); font-size:0.85rem">ایران خودرو با بیش از ۵۵ سال سابقه، بزرگ‌ترین خودروساز ایران و یکی از معتبرترین برندهای خودروسازی خاورمیانه است.</p>
-            <div class="social-links">
-                <div class="social-btn" onclick="showNotif('اینستاگرام ایران خودرو', '📸')">📸</div>
-                <div class="social-btn" onclick="showNotif('تلگرام ایران خودرو', '✈️')">✈️</div>
-                <div class="social-btn" onclick="showNotif('توییتر ایران خودرو', '🐦')">🐦</div>
-                <div class="social-btn" onclick="showNotif('یوتوب ایران خودرو', '▶️')">▶️</div>
-            </div>
-        </div>
-        <div class="footer-col"><h4>محصولات</h4><ul><li><a href="#">سواری‌ها</a></li><li><a href="#">شاسی‌بلندها</a></li><li><a href="#">خودروهای برقی</a></li><li><a href="#">وانت و کامیونت</a></li></ul></div>
-        <div class="footer-col"><h4>خدمات</h4><ul><li><a href="#">پیش‌فروش</a></li><li><a href="#">بیمه و ضمانت</a></li><li><a href="#">نمایندگی‌ها</a></li><li><a href="#">پرداخت ارزی TON</a></li></ul></div>
-        <div class="footer-col"><h4>پشتیبانی</h4><ul><li><a href="#">راهنمای خرید</a></li><li><a href="#">سوالات متداول</a></li><li><a href="#">تماس با ما</a></li><li><a href="#">درباره ما</a></li></ul></div>
+        <div class="footer-col"><div class="logo-icon" style="margin-bottom:15px">IK</div><p style="color:var(--gray); font-size:0.85rem">بزرگ‌ترین خودروساز خاورمیانه با بیش از ۵۵ سال سابقه.</p><div class="social-links" id="socialLinks"></div></div>
+        <div class="footer-col"><h4>محصولات</h4><ul><li><a onclick="scrollToSection('products')">سواری‌ها</a></li><li><a onclick="scrollToSection('products')">شاسی‌بلندها</a></li><li><a onclick="scrollToSection('products')">خودروهای برقی</a></li></ul></div>
+        <div class="footer-col"><h4>خدمات</h4><ul><li><a onclick="scrollToSection('presale')">پیش‌فروش</a></li><li><a onclick="scrollToSection('payment')">پرداخت ارزی TON</a></li><li><a href="#" id="guaranteeLink">ضمانتنامه</a></li></ul></div>
+        <div class="footer-col"><h4>پشتیبانی</h4><ul><li><a href="#" id="aboutLink">درباره ما</a></li><li><a href="#" id="contactUsLink">تماس با ما</a></li><li><a href="#" id="faqLink">سوالات متداول</a></li></ul></div>
     </div>
-    <div class="footer-bottom"><div>© ۱۴۰۵ ایران خودرو. تمام حقوق محفوظ است.</div><div style="display:flex;gap:20px"><span>حریم خصوصی</span><span>شرایط استفاده</span><span style="color:#60CCFF">💎 TON Payments Enabled</span></div></div>
+    <div class="footer-bottom"><div>© ۱۴۰۵ ایران خودرو. تمام حقوق محفوظ است.</div><div>💎 TON Payments Enabled</div></div>
 </footer>
 
-<!-- ==================== مودال ورود/ثبت‌نام ==================== -->
-<div id="authModal" class="modal">
-    <div class="modal-content">
-        <span class="close-modal" onclick="closeModal('authModal')">&times;</span>
-        <h3 style="text-align:center; margin-bottom:20px;">👤 ورود | ثبت‌نام</h3>
-        <div class="tab-buttons">
-            <button class="tab-btn active" id="loginTabBtn">ورود</button>
-            <button class="tab-btn" id="registerTabBtn">ثبت‌نام</button>
-        </div>
-        <div id="loginForm">
-            <input type="email" id="loginEmail" placeholder="ایمیل">
-            <input type="password" id="loginPassword" placeholder="رمز عبور">
-            <button class="modal-btn modal-btn-primary" onclick="handleLogin()">ورود به حساب</button>
-        </div>
-        <div id="registerForm" style="display:none;">
-            <input type="text" id="regName" placeholder="نام و نام خانوادگی">
-            <input type="email" id="regEmail" placeholder="ایمیل">
-            <input type="text" id="regPhone" placeholder="شماره موبایل">
-            <input type="password" id="regPassword" placeholder="رمز عبور (حداقل ۶ کاراکتر)">
-            <button class="modal-btn modal-btn-primary" onclick="handleRegister()">ثبت‌نام و ورود</button>
-        </div>
-    </div>
-</div>
+<!-- مودال‌ها -->
+<div id="authModal" class="modal"><div class="modal-content"><span class="close-modal" onclick="closeModal('authModal')">&times;</span><h3 style="text-align:center">👤 ورود | ثبت‌نام</h3><div class="tab-buttons"><button class="tab-btn active" id="loginTabBtn">ورود</button><button class="tab-btn" id="registerTabBtn">ثبت‌نام</button></div><div id="loginForm"><input type="email" id="loginEmail" placeholder="ایمیل"><input type="password" id="loginPassword" placeholder="رمز عبور"><button class="modal-btn modal-btn-primary" onclick="handleLogin()">ورود</button></div><div id="registerForm" style="display:none"><input type="text" id="regName" placeholder="نام کامل"><input type="email" id="regEmail" placeholder="ایمیل"><input type="text" id="regPhone" placeholder="موبایل"><input type="password" id="regPassword" placeholder="رمز (حداقل ۶ کاراکتر)"><button class="modal-btn modal-btn-primary" onclick="handleRegister()">ثبت‌نام</button></div></div></div>
 
-<!-- ==================== مودال سبد خرید ==================== -->
-<div id="cartModal" class="modal">
-    <div class="modal-content">
-        <span class="close-modal" onclick="closeModal('cartModal')">&times;</span>
-        <h3>🛒 سبد خرید</h3>
-        <div id="cartItemsList" class="cart-items-list"></div>
-        <div id="cartTotalDisplay" class="cart-total"></div>
-        <button class="modal-btn modal-btn-primary" onclick="checkout()">✅ تکمیل خرید</button>
-        <button class="modal-btn modal-btn-secondary" onclick="closeModal('cartModal')" style="margin-top:10px;">✖️ بستن</button>
-    </div>
-</div>
+<div id="cartModal" class="modal"><div class="modal-content"><span class="close-modal" onclick="closeModal('cartModal')">&times;</span><h3>🛒 سبد خرید</h3><div id="cartItemsList" class="cart-items-list"></div><div id="cartTotalDisplay" class="cart-total"></div><button class="modal-btn modal-btn-primary" onclick="checkout()">✅ تکمیل خرید</button><button class="modal-btn modal-btn-secondary" onclick="closeModal('cartModal')">بستن</button></div></div>
 
-<!-- دکمه ریست سبد خرید (برای مواقع اضطراری) -->
-<button class="reset-cart-btn" onclick="resetCart()">🗑️ ریست سبد خرید</button>
+<div id="simpleModal" class="modal"><div class="modal-content"><span class="close-modal" onclick="closeModal('simpleModal')">&times;</span><div id="simpleModalBody"></div><button class="modal-btn modal-btn-secondary" onclick="closeModal('simpleModal')">بستن</button></div></div>
 
-<div id="notification" class="notification">
-    <span class="notif-icon" id="notifIcon">✅</span>
-    <span class="notif-text" id="notifText"></span>
-</div>
+<div id="notification" class="notification"><span class="notif-icon" id="notifIcon">✅</span><span class="notif-text" id="notifText"></span></div>
 
 <script>
-// ==================== تنظیمات Supabase ====================
+// ========== CONFIG ==========
 const SUPABASE_URL = 'https://czvkjxphrmlnizrlqaws.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6dmtqeHBocm1sbml6cmxxYXdzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODExNjc0OTQsImV4cCI6MjA5Njc0MzQ5NH0.DpkQeIMEX-MHGy33I2NAgPVbtCkMRwMz9SgKVDrnX-o';
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-// آدرس کیف پول TON فروشگاه
 const STORE_WALLET = 'UQCpm9nRpvM3V7TGr5TUV8LKw2la-hYXKhP-txV_AjEW2mjq';
-
-// ==================== متغیرهای سراسری ====================
 let currentUser = null;
-let cart = [];
+let cart = JSON.parse(localStorage.getItem('cart') || '[]');
 let currentTonRate = 298500;
-let lastRateUpdate = 0;
+let activeCategory = 'all';
 
-// بارگذاری سبد خرید از localStorage
-function loadCartFromStorage() {
-    const savedCart = localStorage.getItem('cart');
-    if (savedCart) {
-        try {
-            cart = JSON.parse(savedCart);
-            // اعتبارسنجی آیتم‌های سبد خرید
-            cart = cart.filter(item => item && item.price && item.price > 0 && item.name);
-        } catch(e) {
-            cart = [];
-        }
-    } else {
-        cart = [];
-    }
-    updateCartBadge();
-}
-
-// ==================== توابع کمکی ====================
-function showNotif(text, icon = '✅') {
+// ========== HELPERS ==========
+function showNotif(text, icon = '✅') { 
     const n = document.getElementById('notification');
     document.getElementById('notifText').innerText = text;
     document.getElementById('notifIcon').innerHTML = icon;
     n.classList.add('show');
     setTimeout(() => n.classList.remove('show'), 3000);
 }
+function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+function scrollToSection(id) { document.getElementById(id).scrollIntoView({ behavior: 'smooth' }); }
 
-function openModal(id) { 
-    const modal = document.getElementById(id);
-    if (modal) modal.style.display = 'flex'; 
-}
-
-function closeModal(id) { 
-    const modal = document.getElementById(id);
-    if (modal) modal.style.display = 'none'; 
-}
-
-// ریست سبد خرید (برای مواقع اضطراری)
-function resetCart() {
-    cart = [];
-    localStorage.removeItem('cart');
-    updateCartBadge();
-    renderCart();
-    showNotif('سبد خرید با موفقیت ریست شد', '🗑️');
-}
-
-// ==================== تیکر ====================
-const tickerMessages = [
-    '☀️ جشنواره تابستانی: تخفیف تا ۱۵٪ روی تمام خودروها',
-    '💎 اکنون می‌توانید با TON Coin خرید کنید',
-    '🚗 تارا الکتریک: پیش‌فروش آغاز شد',
-    '📋 سامان ۲۰۰۰ توربو: ثبت‌نام پیش‌فروش باز است',
-    '🎁 ارسال رایگان به تمام نقاط ایران',
-    '🛡️ گارانتی ۳ ساله برای تمام محصولات',
-    '💳 اقساط ۶۰ ماهه با سود رقابتی'
-];
-function initTicker() {
+// ========== TICKER ==========
+const tickerMessages = ['☀️ جشنواره تابستانی: تخفیف تا ۱۵٪', '💎 پرداخت با TON Coin', '🚗 تارا الکتریک پیش‌فروش', '🎁 ارسال رایگان', '🛡️ گارانتی ۳ ساله'];
+function initTicker() { 
     const ticker = document.getElementById('tickerInner');
-    if (!ticker) return;
-    const allMsgs = [...tickerMessages, ...tickerMessages];
-    ticker.innerHTML = allMsgs.map(m => `<span class="ticker-item">${m} <span class="ticker-sep">●</span></span>`).join('');
+    if(ticker) ticker.innerHTML = [...tickerMessages, ...tickerMessages].map(m => `<span class="ticker-item">${m} <span class="ticker-sep">●</span></span>`).join('');
 }
 initTicker();
 
-// ==================== اسکرول انیمیشن ====================
-function initReveal() {
-    const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.1 });
-    reveals.forEach(r => observer.observe(r));
+// ========== PRODUCTS DATA ==========
+const productsData = [
+    { id: 1, name: 'پژو پارس سال', name_en: 'Pars TU5', price: 1850000000, discount: 15, category: 'sedan', specs: ['۱۶۰۰ سی‌سی', 'دستی'], image: '🚗' },
+    { id: 2, name: 'پژو ۲۰۷ اتوماتیک', name_en: '207 Auto', price: 1850000000, discount: 15, category: 'sedan', specs: ['۱۵۰۰ سی‌سی', 'اتوماتیک'], image: '🚙' },
+    { id: 3, name: 'دنا پلاس توربو', name_en: 'Dena Plus Turbo', price: 2100000000, discount: 10, category: 'suv', specs: ['۱۶۵۰ توربو', 'اتوماتیک'], image: '🚐' },
+    { id: 4, name: 'پژو ۴۰۵ SLX', name_en: '405 SLX', price: 1400000000, discount: 7, category: 'sedan', specs: ['۱۸۰۰ سی‌سی', 'دستی'], image: '🏎️' },
+    { id: 5, name: 'رانا پلاس', name_en: 'Rana Plus', price: 1550000000, discount: 5, category: 'hatch', specs: ['۱۵۰۰ سی‌سی', 'اتوماتیک'], image: '🚕' },
+    { id: 6, name: 'تارا الکتریک', name_en: 'Tara Electric', price: 2300000000, discount: 14, category: 'electric', specs: ['برقی', '۴۵۰ کیلومتر'], image: '⚡', isPreorder: true }
+];
+
+function loadProducts() {
+    const grid = document.getElementById('productsGrid');
+    if(!grid) return;
+    grid.innerHTML = productsData.map(p => {
+        const finalPrice = p.price * (100 - p.discount) / 100;
+        const tonAmount = (finalPrice / currentTonRate).toFixed(2);
+        return `<div class="product-card" data-cat="${p.category}">
+            <div class="product-img"><div class="product-badges">${p.discount ? `<span class="badge badge-sale">${p.discount}%</span>` : ''}${p.isPreorder ? '<span class="badge badge-pre">پیش‌فروش</span>' : ''}</div>${p.image}</div>
+            <div class="product-info"><div class="product-name">${p.name}</div><div class="product-eng">${p.name_en}</div>
+            <div class="product-specs">${p.specs.map(s=>`<span class="spec-tag">${s}</span>`).join('')}</div>
+            <div class="price-main">${finalPrice.toLocaleString()} تومان</div>${p.discount?`<div class="price-old">${p.price.toLocaleString()} تومان</div>`:''}
+            <div class="ton-price">💎 ≈ ${tonAmount} TON</div>
+            <button class="btn-buy" onclick="addToCart(${p.id}, '${p.name}', ${finalPrice})">${p.isPreorder ? 'ثبت پیش‌فروش' : 'خرید'}</button></div></div>`;
+    }).join('');
+    filterProducts(activeCategory);
 }
-initReveal();
 
-// ==================== لودر ====================
-window.addEventListener('load', () => {
-    setTimeout(() => {
-        const loader = document.getElementById('loader');
-        if (loader) loader.classList.add('hidden');
-    }, 1500);
-});
+function filterProducts(category) {
+    activeCategory = category;
+    document.querySelectorAll('.product-card').forEach(card => {
+        card.style.display = (category === 'all' || card.dataset.cat === category) ? 'block' : 'none';
+    });
+    document.querySelectorAll('.tab').forEach(btn => btn.classList.remove('active'));
+    document.querySelector(`.tab[data-cat="${category}"]`).classList.add('active');
+}
 
-// ==================== نرخ TON ====================
+// ========== CART ==========
+function updateCartBadge() { document.getElementById('cartBadge').innerText = cart.reduce((s,i)=> s + (i.quantity||1), 0); }
+function addToCart(id, name, price) {
+    let existing = cart.find(i => i.id === id);
+    if(existing) existing.quantity = (existing.quantity||1)+1;
+    else cart.push({ id, name, price, quantity: 1 });
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartBadge();
+    renderCart();
+    showNotif(`${name} به سبد اضافه شد`, '🛒');
+}
+function renderCart() {
+    const container = document.getElementById('cartItemsList');
+    const totalContainer = document.getElementById('cartTotalDisplay');
+    if(!container) return;
+    if(!cart.length) { container.innerHTML = '<div class="empty-cart"><div>🛒</div><div>سبد خرید خالی است</div></div>'; if(totalContainer) totalContainer.innerHTML=''; return; }
+    let total = 0;
+    container.innerHTML = cart.map((item, idx) => {
+        const qty = item.quantity||1;
+        const itemTotal = item.price * qty;
+        total += itemTotal;
+        return `<div class="cart-item"><div><div>${item.name}</div><div class="cart-item-price">${item.price.toLocaleString()} تومان</div></div>
+        <div class="cart-item-actions"><button class="cart-qty-btn" onclick="changeQuantity(${idx}, -1)">-</button><span>${qty}</span>
+        <button class="cart-qty-btn" onclick="changeQuantity(${idx}, 1)">+</button><button class="cart-remove-btn" onclick="removeFromCart(${idx})">حذف</button></div>
+        <div>${itemTotal.toLocaleString()} تومان</div></div>`;
+    }).join('');
+    if(totalContainer) totalContainer.innerHTML = `<span>جمع کل:</span> ${total.toLocaleString()} تومان`;
+}
+function changeQuantity(idx, delta) {
+    let newQty = (cart[idx].quantity||1) + delta;
+    if(newQty <= 0) cart.splice(idx,1);
+    else cart[idx].quantity = newQty;
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartBadge();
+    renderCart();
+}
+function removeFromCart(idx) { cart.splice(idx,1); localStorage.setItem('cart', JSON.stringify(cart)); updateCartBadge(); renderCart(); }
+async function checkout() {
+    if(!currentUser) { showNotif('لطفاً وارد شوید', '👤'); closeModal('cartModal'); openModal('authModal'); return; }
+    if(!cart.length) { showNotif('سبد خالی است', '⚠️'); return; }
+    const total = cart.reduce((s,i)=> s + (i.price * (i.quantity||1)), 0);
+    try {
+        const { data, error } = await supabase.from('orders').insert([{ user_id: currentUser.id, total_amount: total, status: 'pending', payment_status: 'unpaid' }]).select();
+        if(error) throw error;
+        for(let item of cart) await supabase.from('order_items').insert([{ order_id: data[0].id, product_name: item.name, quantity: item.quantity||1, price: item.price }]);
+        showNotif(`سفارش ${data[0].id} ثبت شد`, '✅');
+        cart = []; localStorage.setItem('cart', '[]'); updateCartBadge(); renderCart(); closeModal('cartModal');
+    } catch(e) { showNotif(e.message, '❌'); }
+}
+
+// ========== TON & AUTH ==========
 async function fetchTonRate() {
     try {
         const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=the-open-network&vs_currencies=usd');
         const data = await res.json();
         const tonUsd = data['the-open-network']?.usd || 2.5;
         currentTonRate = tonUsd * 60000;
-        lastRateUpdate = Date.now();
-        const rateEl = document.getElementById('tonRate');
-        if (rateEl) rateEl.innerHTML = `۱ TON ≈ ${currentTonRate.toLocaleString()} تومان`;
-    } catch(e) {
-        console.error('خطا در دریافت نرخ TON:', e);
-        const rateEl = document.getElementById('tonRate');
-        if (rateEl) rateEl.innerHTML = `۱ TON ≈ ۲۹۸,۵۰۰ تومان`;
-    }
+        document.getElementById('tonRate').innerHTML = `۱ TON ≈ ${currentTonRate.toLocaleString()} تومان`;
+        loadProducts(); // refresh TON prices
+    } catch(e) { console.error(e); document.getElementById('tonRate').innerHTML = `۱ TON ≈ ۲۹۸,۵۰۰ تومان`; }
 }
-fetchTonRate();
-setInterval(fetchTonRate, 60000);
-
 function calculateTon() {
-    const tomanInput = document.getElementById('tomanAmount');
-    const tonOutput = document.getElementById('tonAmount');
-    if (!tomanInput || !tonOutput) return;
-    const toman = parseFloat(tomanInput.value.replace(/,/g, ''));
-    if (!isNaN(toman) && toman > 0) {
-        const ton = (toman / currentTonRate).toFixed(4);
-        tonOutput.value = ton + ' TON';
-    } else {
-        tonOutput.value = '';
-    }
+    let toman = parseFloat(document.getElementById('tomanAmount').value.replace(/,/g, ''));
+    if(!isNaN(toman) && toman>0) document.getElementById('tonAmount').value = (toman / currentTonRate).toFixed(4) + ' TON';
+    else document.getElementById('tonAmount').value = '';
+}
+async function payWithTon() {
+    if(!currentUser) { showNotif('ابتدا وارد شوید', '👤'); openModal('authModal'); return; }
+    let toman = parseFloat(document.getElementById('tomanAmount').value.replace(/,/g, ''));
+    let wallet = document.getElementById('walletAddress').value;
+    if(!toman || toman<=0) { showNotif('مبلغ را وارد کنید', '⚠️'); return; }
+    if(!wallet) { showNotif('آدرس کیف پول TON را وارد کنید', '⚠️'); return; }
+    let tonAmount = (toman / currentTonRate).toFixed(4);
+    showNotif(`لطفاً ${tonAmount} TON به آدرس ${STORE_WALLET} واریز کنید. پس از تأیید خودکار، سفارش ثبت می‌شود.`, '💎');
+    await supabase.from('ton_transactions').insert([{ id: crypto.randomUUID?.() || Date.now()+'-'+Math.random(), user_id: currentUser.id, amount_toman: toman, amount_ton: parseFloat(tonAmount), wallet_address: STORE_WALLET, status: 'pending' }]);
 }
 
-// ==================== احراز هویت ====================
 async function handleLogin() {
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
-    if (!email || !password) { showNotif('لطفاً ایمیل و رمز را وارد کنید', '⚠️'); return; }
+    if(!email || !password) { showNotif('ایمیل و رمز را وارد کنید', '⚠️'); return; }
     try {
         const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
+        if(error) throw error;
         currentUser = data.user;
         localStorage.setItem('user', JSON.stringify(currentUser));
-        showNotif(`خوش آمدید ${currentUser.email?.split('@')[0]} 👋`, '✅');
+        showNotif(`خوش آمدید ${currentUser.email?.split('@')[0]}`, '✅');
         closeModal('authModal');
         updateAuthUI();
-        renderCart();
     } catch(e) { showNotif(e.message, '❌'); }
 }
-
 async function handleRegister() {
     const name = document.getElementById('regName').value;
     const email = document.getElementById('regEmail').value;
     const phone = document.getElementById('regPhone').value;
     const password = document.getElementById('regPassword').value;
-    if (!name || !email || !phone || !password) { showNotif('لطفاً تمام فیلدها را پر کنید', '⚠️'); return; }
-    if (password.length < 6) { showNotif('رمز عبور باید حداقل ۶ کاراکتر باشد', '⚠️'); return; }
+    if(!name || !email || !phone || !password) { showNotif('تمامی فیلدها الزامی است', '⚠️'); return; }
+    if(password.length<6) { showNotif('رمز حداقل ۶ کاراکتر', '⚠️'); return; }
     try {
-        const { data, error } = await supabase.auth.signUp({
-            email, password,
-            options: { data: { name, phone } }
-        });
-        if (error) throw error;
+        const { data, error } = await supabase.auth.signUp({ email, password, options: { data: { name, phone } } });
+        if(error) throw error;
         currentUser = data.user;
-        showNotif('ثبت‌نام موفق! خوش آمدید 🎉', '✅');
+        showNotif('ثبت‌نام موفق!', '🎉');
         closeModal('authModal');
         updateAuthUI();
     } catch(e) { showNotif(e.message, '❌'); }
 }
-
-async function logout() {
-    await supabase.auth.signOut();
-    currentUser = null;
-    localStorage.removeItem('user');
-    updateAuthUI();
-    showNotif('با موفقیت خارج شدید', '👋');
-}
-
+async function logout() { await supabase.auth.signOut(); currentUser = null; localStorage.removeItem('user'); updateAuthUI(); showNotif('خارج شدید', '👋'); }
 function updateAuthUI() {
     const btn = document.getElementById('btnLogin');
-    if (!btn) return;
-    if (currentUser) {
-        btn.innerText = `👤 ${currentUser.email?.split('@')[0]}`;
-        btn.onclick = () => { if(confirm('آیا می‌خواهید خارج شوید؟')) logout(); };
-    } else {
-        btn.innerText = 'ورود / ثبت‌نام';
-        btn.onclick = () => openModal('authModal');
-    }
+    if(currentUser) { btn.innerText = `👤 ${currentUser.email?.split('@')[0]}`; btn.onclick = () => { if(confirm('خروج؟')) logout(); }; }
+    else { btn.innerText = 'ورود / ثبت‌نام'; btn.onclick = () => openModal('authModal'); }
 }
 
-// تب‌های ورود/ثبت‌نام
-const loginTab = document.getElementById('loginTabBtn');
-const registerTab = document.getElementById('registerTabBtn');
-if (loginTab && registerTab) {
-    loginTab.addEventListener('click', () => {
-        document.getElementById('loginForm').style.display = 'block';
-        document.getElementById('registerForm').style.display = 'none';
-        loginTab.classList.add('active');
-        registerTab.classList.remove('active');
-    });
-    registerTab.addEventListener('click', () => {
-        document.getElementById('loginForm').style.display = 'none';
-        document.getElementById('registerForm').style.display = 'block';
-        registerTab.classList.add('active');
-        loginTab.classList.remove('active');
-    });
-}
-
-// ==================== محصولات ====================
-const productsData = [
-    { id: 1, name: 'پژو پارس سال', name_en: 'Pars TU5', price: 1850000000, discount: 15, category: 'sedan', specs: ['۱۶۰۰ سی‌سی', 'دستی', 'بنزینی'], stock: 50, image: '🚗' },
-    { id: 2, name: 'پژو ۲۰۷ اتوماتیک', name_en: 'Peugeot 207 Auto', price: 1850000000, discount: 15, category: 'sedan', specs: ['۱۵۰۰ سی‌سی', 'اتوماتیک', 'بنزینی'], stock: 30, image: '🚙' },
-    { id: 3, name: 'دنا پلاس توربو', name_en: 'Dena Plus Turbo', price: 2100000000, discount: 10, category: 'suv', specs: ['۱۶۵۰ توربو', 'اتوماتیک', 'سانروف'], stock: 20, image: '🚐' },
-    { id: 4, name: 'پژو ۴۰۵ SLX', name_en: 'Peugeot 405 SLX', price: 1400000000, discount: 7, category: 'sedan', specs: ['۱۸۰۰ سی‌سی', 'دستی'], stock: 15, image: '🏎️' },
-    { id: 5, name: 'رانا پلاس', name_en: 'Rana Plus', price: 1550000000, discount: 5, category: 'hatch', specs: ['۱۵۰۰ سی‌سی', 'اتوماتیک'], stock: 25, image: '🚕' },
-    { id: 6, name: 'تارا الکتریک', name_en: 'Tara Electric', price: 2300000000, discount: 14, category: 'electric', specs: ['برقی', '۴۵۰ کیلومتر'], stock: 10, image: '⚡', isPreorder: true }
-];
-
-function loadProducts() {
-    const grid = document.getElementById('productsGrid');
-    if (!grid) return;
-    grid.innerHTML = productsData.map(p => {
-        const finalPrice = p.price * (100 - p.discount) / 100;
-        const tonAmount = Math.round(finalPrice / currentTonRate);
-        return `
-            <div class="product-card" data-cat="${p.category}">
-                <div class="product-img">
-                    <div class="product-badges">
-                        ${p.discount ? `<span class="badge badge-sale">${p.discount}% تخفیف</span>` : ''}
-                        ${p.isPreorder ? `<span class="badge badge-pre">پیش‌فروش</span>` : ''}
-                    </div>
-                    ${p.image}
-                </div>
-                <div class="product-info">
-                    <div class="product-name">${p.name}</div>
-                    <div class="product-eng">${p.name_en}</div>
-                    <div class="product-specs">${p.specs.map(s => `<span class="spec-tag">${s}</span>`).join('')}</div>
-                    <div class="price-main">${finalPrice.toLocaleString()} تومان</div>
-                    ${p.discount ? `<div class="price-old">${p.price.toLocaleString()} تومان</div>` : ''}
-                    <div class="ton-price">💎 معادل تون‌کوین: ≈ ${tonAmount} TON</div>
-                    <button class="btn-buy" onclick="addToCart(${p.id}, '${p.name}', ${finalPrice})">${p.isPreorder ? 'ثبت پیش‌فروش' : 'خرید فوری'}</button>
-                </div>
-            </div>
-        `;
-    }).join('');
-}
-
-function filterProducts(category) {
-    document.querySelectorAll('.product-card').forEach(card => {
-        card.style.display = (category === 'all' || card.dataset.cat === category) ? 'block' : 'none';
-    });
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    if (event && event.target) event.target.classList.add('active');
-}
-
-// ==================== سبد خرید ====================
-function updateCartBadge() {
-    const total = cart.reduce((sum, i) => sum + (i.quantity || 1), 0);
-    const badge = document.getElementById('cartBadge');
-    if (badge) badge.innerText = total;
-}
-
-function addToCart(id, name, price) {
-    if (isNaN(price) || price <= 0) {
-        console.error('قیمت نامعتبر:', price);
-        showNotif('خطا در افزودن محصول به سبد', '❌');
-        return;
-    }
-    
-    const existing = cart.find(i => i.id === id);
-    if (existing) {
-        existing.quantity = (existing.quantity || 1) + 1;
-    } else {
-        cart.push({ id: id, name: name, price: price, quantity: 1 });
-    }
-    localStorage.setItem('cart', JSON.stringify(cart));
-    updateCartBadge();
-    showNotif(`${name} به سبد خرید اضافه شد`, '🛒');
-    renderCart();
-}
-
-function renderCart() {
-    const container = document.getElementById('cartItemsList');
-    const totalContainer = document.getElementById('cartTotalDisplay');
-    if (!container) return;
-    
-    if (!cart || cart.length === 0) {
-        container.innerHTML = `<div class="empty-cart"><div class="empty-cart-icon">🛒</div><div>سبد خرید شما خالی است</div><div style="font-size:0.8rem; margin-top:10px;">برای افزودن محصول، روی دکمه "خرید" کلیک کنید</div></div>`;
-        if (totalContainer) totalContainer.innerHTML = '';
-        return;
-    }
-    
-    let total = 0;
-    let hasError = false;
-    
-    container.innerHTML = cart.map((item, idx) => {
-        if (!item.price || isNaN(item.price) || item.price <= 0) {
-            hasError = true;
-            return `<div class="cart-item" style="background: rgba(200,16,46,0.2); border-radius: 10px; padding: 10px;">
-                        <div class="cart-item-info">
-                            <div class="cart-item-name">${item.name || 'نامشخص'}</div>
-                            <div class="cart-item-price" style="color: red;">خطا در قیمت - حذف کنید</div>
-                        </div>
-                        <div class="cart-item-actions">
-                            <button class="cart-remove-btn" onclick="removeFromCart(${idx})">حذف</button>
-                        </div>
-                    </div>`;
-        }
-        
-        const qty = item.quantity || 1;
-        const itemTotal = item.price * qty;
-        total += itemTotal;
-        
-        return `
-            <div class="cart-item">
-                <div class="cart-item-info">
-                    <div class="cart-item-name">${item.name}</div>
-                    <div class="cart-item-price">${item.price.toLocaleString()} تومان</div>
-                </div>
-                <div class="cart-item-actions">
-                    <button class="cart-qty-btn" onclick="changeQuantity(${idx}, -1)">-</button>
-                    <span class="cart-item-quantity">${qty}</span>
-                    <button class="cart-qty-btn" onclick="changeQuantity(${idx}, 1)">+</button>
-                    <button class="cart-remove-btn" onclick="removeFromCart(${idx})">حذف</button>
-                </div>
-                <div class="cart-item-total">${itemTotal.toLocaleString()} تومان</div>
-            </div>
-        `;
-    }).join('');
-    
-    if (hasError) {
-        showNotif('برخی آیتم‌های سبد خرید مشکل دارند. آنها را حذف کنید.', '⚠️');
-    }
-    
-    if (totalContainer) {
-        totalContainer.innerHTML = `<span>جمع کل:</span> ${total.toLocaleString()} تومان`;
-    }
-}
-
-function changeQuantity(idx, delta) {
-    if (!cart[idx]) return;
-    const newQty = (cart[idx].quantity || 1) + delta;
-    if (newQty <= 0) {
-        cart.splice(idx, 1);
-    } else {
-        cart[idx].quantity = newQty;
-    }
-    localStorage.setItem('cart', JSON.stringify(cart));
-    updateCartBadge();
-    renderCart();
-}
-
-function removeFromCart(idx) {
-    cart.splice(idx, 1);
-    localStorage.setItem('cart', JSON.stringify(cart));
-    updateCartBadge();
-    renderCart();
-}
-
-async function checkout() {
-    if (!currentUser) {
-        showNotif('لطفاً ابتدا وارد حساب خود شوید', '👤');
-        closeModal('cartModal');
-        openModal('authModal');
-        return;
-    }
-    if (cart.length === 0) {
-        showNotif('سبد خرید خالی است!', '⚠️');
-        return;
-    }
-    const total = cart.reduce((sum, i) => sum + (i.price * (i.quantity || 1)), 0);
-    try {
-        const { data, error } = await supabase.from('orders').insert([{
-            user_id: currentUser.id,
-            total_amount: total,
-            status: 'pending',
-            payment_status: 'unpaid',
-            payment_method: 'bank'
-        }]).select();
-        if (error) throw error;
-        for (const item of cart) {
-            await supabase.from('order_items').insert([{
-                order_id: data[0].id,
-                product_name: item.name,
-                quantity: item.quantity || 1,
-                price: item.price
-            }]);
-        }
-        showNotif(`سفارش شما با شماره ${data[0].id} ثبت شد ✅`, '✅');
-        cart = [];
-        localStorage.setItem('cart', JSON.stringify(cart));
-        updateCartBadge();
-        renderCart();
-        closeModal('cartModal');
-    } catch(e) { 
-        showNotif(e.message, '❌'); 
-    }
-}
-
-// ==================== پرداخت با TON ====================
-async function payWithTon() {
-    if (!currentUser) {
-        showNotif('لطفاً ابتدا وارد شوید', '👤');
-        openModal('authModal');
-        return;
-    }
-    const tomanInput = document.getElementById('tomanAmount');
-    const walletInput = document.getElementById('walletAddress');
-    if (!tomanInput || !walletInput) return;
-    
-    const toman = parseFloat(tomanInput.value);
-    if (!toman || toman <= 0) {
-        showNotif('لطفاً مبلغ را وارد کنید', '⚠️');
-        return;
-    }
-    const wallet = walletInput.value;
-    if (!wallet) {
-        showNotif('لطفاً آدرس کیف پول TON خود را وارد کنید', '⚠️');
-        return;
-    }
-    const tonAmount = (toman / currentTonRate).toFixed(4);
-    showNotif(`لطفاً ${tonAmount} TON به آدرس زیر ارسال کنید:\n${STORE_WALLET}\nپس از ارسال، پرداخت شما به صورت خودکار تأیید می‌شود`, '💎');
-    
-    const txId = crypto.randomUUID();
-    await supabase.from('ton_transactions').insert([{
-        id: txId,
-        user_id: currentUser.id,
-        amount_toman: toman,
-        amount_ton: parseFloat(tonAmount),
-        wallet_address: STORE_WALLET,
-        status: 'pending'
-    }]);
-}
-
-// ==================== پیش‌فروش ====================
+// ========== PRELOAD & UI ==========
 function loadPresale() {
     const presaleData = [
         { name: 'تارا پلاس اتوماتیک', progress: 78, prePrice: '۱۰۰,۰۰۰,۰۰۰', status: 'در حال ثبت‌نام' },
@@ -1501,43 +998,61 @@ function loadPresale() {
         { name: 'تارا الکتریک نسل ۲', progress: 5, prePrice: '۱۵۰,۰۰۰,۰۰۰', status: 'به زودی' }
     ];
     const grid = document.getElementById('presaleGrid');
-    if (!grid) return;
-    grid.innerHTML = presaleData.map(p => `
-        <div class="presale-card">
-            <div class="presale-car-img">🚗</div>
-            <div class="presale-car-name">${p.name}</div>
-            <div class="presale-status">${p.status}</div>
-            <div class="presale-progress"><div class="progress-fill" style="width:${p.progress}%"></div></div>
-            <div class="presale-price">پیش‌قسط: ${p.prePrice} تومان</div>
-            <button class="btn-presale" onclick="showNotif('ثبت‌نام پیش‌فروش انجام شد', '✅')">ثبت‌نام پیش‌فروش</button>
-        </div>
-    `).join('');
+    if(grid) grid.innerHTML = presaleData.map(p => `<div class="presale-card"><div class="presale-car-img">🚗</div><div class="presale-car-name">${p.name}</div><div class="presale-status">${p.status}</div><div class="presale-progress"><div class="progress-fill" style="width:${p.progress}%"></div></div><div class="presale-price">پیش‌قسط: ${p.prePrice} تومان</div><button class="btn-presale" onclick="showNotif('ثبت‌نام پیش‌فروش انجام شد', '✅')">ثبت‌نام</button></div>`).join('');
 }
-
-// ==================== بارگذاری اولیه ====================
-async function loadSession() {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (user) {
-        currentUser = user;
-        localStorage.setItem('user', JSON.stringify(user));
-        updateAuthUI();
-    }
+function loadFeatures() {
+    const features = [
+        { icon:'🏭', title:'مستقیم از کارخانه', desc:'قیمت کارخانه و ضمانت اصالت' },
+        { icon:'🛡️', title:'ضمانت ۳ ساله', desc:'گارانتی کامل قطعات' },
+        { icon:'🚚', title:'تحویل سراسری', desc:'تحویل در سریعترین زمان' },
+        { icon:'💳', title:'اقساط بلندمدت', desc:'تا ۶۰ ماه' }
+    ];
+    const grid = document.getElementById('featuresGrid');
+    if(grid) grid.innerHTML = features.map(f => `<div class="feature-card"><div class="feature-icon">${f.icon}</div><div class="feature-title">${f.title}</div><div class="feature-desc">${f.desc}</div></div>`).join('');
 }
+function loadPaymentFeatures() {
+    const pf = document.getElementById('paymentFeatures');
+    if(pf) pf.innerHTML = `<div class="payment-feature"><div class="pf-icon">🔒</div><div>پرداخت امن بلاک‌چین</div></div><div class="payment-feature"><div class="pf-icon">⚡</div><div>تسویه آنی</div></div><div class="payment-feature"><div class="pf-icon">🌍</div><div>قابل استفاده برای ایرانیان خارج از کشور</div></div><div class="payment-feature"><div class="pf-icon">💱</div><div>نرخ لحظه‌ای</div></div>`;
+}
+function loadSocial() {
+    const socialDiv = document.getElementById('socialLinks');
+    if(socialDiv) socialDiv.innerHTML = `<div class="social-btn" onclick="showNotif('اینستاگرام IKCO','📸')">📸</div><div class="social-btn" onclick="showNotif('تلگرام IKCO','✈️')">✈️</div><div class="social-btn" onclick="showNotif('توییتر IKCO','🐦')">🐦</div>`;
+}
+function openInfoModal(title, content) {
+    document.getElementById('simpleModalBody').innerHTML = `<h3>${title}</h3><p>${content}</p>`;
+    openModal('simpleModal');
+}
+function setupFooterLinks() {
+    document.getElementById('aboutLink')?.addEventListener('click', (e) => { e.preventDefault(); openInfoModal('درباره ایران خودرو', 'ایران خودرو بزرگترین خودروساز خاورمیانه با بیش از ۵۵ سال تجربه، تولیدکننده خودروهای با کیفیت و خدمات پس از فروش گسترده.'); });
+    document.getElementById('contactUsLink')?.addEventListener('click', (e) => { e.preventDefault(); openInfoModal('تماس با ما', 'شماره پشتیبانی: ۰۲۱-XXXXX\nایمیل: support@ikco.ir\nآدرس: تهران، خیابان آزادی'); });
+    document.getElementById('faqLink')?.addEventListener('click', (e) => { e.preventDefault(); openInfoModal('سوالات متداول', '۱. آیا پرداخت با TON امن است؟ بله.\n۲. گارانتی چند سال است؟ ۳ سال.\n۳. نحوه تحویل؟ ارسال به سراسر ایران.'); });
+    document.getElementById('guaranteeLink')?.addEventListener('click', (e) => { e.preventDefault(); openInfoModal('ضمانتنامه', 'گارانتی ۳ ساله یا ۱۰۰,۰۰۰ کیلومتر برای تمام خودروهای فروش رسمی.'); });
+}
+document.getElementById('homeLink')?.addEventListener('click', (e) => { e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); });
+document.querySelectorAll('.nav-link').forEach(link => { link.addEventListener('click', function(e){ e.preventDefault(); let target = this.getAttribute('href'); if(target && target!='#') scrollToSection(target.substring(1)); }); });
+document.getElementById('contactLink')?.addEventListener('click', (e) => { e.preventDefault(); scrollToSection('contact'); });
+document.getElementById('tabsContainer')?.addEventListener('click', (e) => { let btn = e.target.closest('.tab'); if(btn) filterProducts(btn.dataset.cat); });
+document.getElementById('loginTabBtn')?.addEventListener('click', () => { document.getElementById('loginForm').style.display='block'; document.getElementById('registerForm').style.display='none'; document.getElementById('loginTabBtn').classList.add('active'); document.getElementById('registerTabBtn').classList.remove('active'); });
+document.getElementById('registerTabBtn')?.addEventListener('click', () => { document.getElementById('loginForm').style.display='none'; document.getElementById('registerForm').style.display='block'; document.getElementById('registerTabBtn').classList.add('active'); document.getElementById('loginTabBtn').classList.remove('active'); });
+document.getElementById('cartBtn').onclick = () => { renderCart(); openModal('cartModal'); };
 
-document.addEventListener('DOMContentLoaded', () => {
-    loadCartFromStorage();
-    loadSession();
+// ========== INIT ==========
+window.addEventListener('load', async () => {
+    await fetchTonRate();
     loadProducts();
     loadPresale();
+    loadFeatures();
+    loadPaymentFeatures();
+    loadSocial();
+    setupFooterLinks();
+    updateCartBadge();
     renderCart();
-    
-    const cartBtn = document.getElementById('cartBtn');
-    if (cartBtn) {
-        cartBtn.onclick = () => { renderCart(); openModal('cartModal'); };
-    }
+    const { data: { user } } = await supabase.auth.getUser();
+    if(user) { currentUser = user; updateAuthUI(); }
+    setTimeout(() => document.getElementById('loader')?.classList.add('hidden'), 800);
+    const reveals = document.querySelectorAll('.reveal');
+    new IntersectionObserver(entries => entries.forEach(e => e.isIntersecting && e.target.classList.add('visible')), { threshold:0.1 }).observe(reveals);
 });
-
-// توابع گلوبال برای استفاده در onclick
 window.filterProducts = filterProducts;
 window.addToCart = addToCart;
 window.changeQuantity = changeQuantity;
@@ -1546,11 +1061,10 @@ window.checkout = checkout;
 window.handleLogin = handleLogin;
 window.handleRegister = handleRegister;
 window.closeModal = closeModal;
-window.openModal = openModal;
 window.calculateTon = calculateTon;
 window.payWithTon = payWithTon;
 window.showNotif = showNotif;
-window.resetCart = resetCart;
+window.scrollToSection = scrollToSection;
 </script>
 </body>
 </html>
