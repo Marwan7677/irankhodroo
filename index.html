@@ -1263,11 +1263,23 @@ function updateCartBadge() {
 }
 
 function addToCart(id, name, price) {
+    // اعتبارسنجی قیمت
+    if (isNaN(price) || price <= 0) {
+        console.error('قیمت نامعتبر:', price);
+        showNotif('خطا در افزودن محصول به سبد', '❌');
+        return;
+    }
+    
     const existing = cart.find(i => i.id === id);
     if (existing) {
         existing.quantity = (existing.quantity || 1) + 1;
     } else {
-        cart.push({ id, name, price, quantity: 1 });
+        cart.push({ 
+            id: id, 
+            name: name, 
+            price: price,
+            quantity: 1 
+        });
     }
     localStorage.setItem('cart', JSON.stringify(cart));
     updateCartBadge();
@@ -1276,20 +1288,39 @@ function addToCart(id, name, price) {
 }
 
 function renderCart() {
+function renderCart() {
     const container = document.getElementById('cartItemsList');
     const totalContainer = document.getElementById('cartTotalDisplay');
     if (!container) return;
     
-    if (cart.length === 0) {
-        container.innerHTML = `<div class="empty-cart"><div class="empty-cart-icon">🛒</div><div>سبد خرید شما خالی است</div></div>`;
+    if (!cart || cart.length === 0) {
+        container.innerHTML = `<div class="empty-cart"><div class="empty-cart-icon">🛒</div><div>سبد خرید شما خالی است</div><div style="font-size:0.8rem; margin-top:10px;">برای افزودن محصول، روی دکمه "خرید" کلیک کنید</div></div>`;
         if (totalContainer) totalContainer.innerHTML = '';
         return;
     }
     
     let total = 0;
+    let hasError = false;
+    
     container.innerHTML = cart.map((item, idx) => {
-        const itemTotal = item.price * (item.quantity || 1);
+        // اعتبارسنجی هر آیتم
+        if (!item.price || isNaN(item.price) || item.price <= 0) {
+            hasError = true;
+            return `<div class="cart-item" style="background: rgba(200,16,46,0.2);">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name || 'نامشخص'}</div>
+                            <div class="cart-item-price" style="color: red;">خطا در قیمت - حذف کنید</div>
+                        </div>
+                        <div class="cart-item-actions">
+                            <button class="cart-remove-btn" onclick="removeFromCart(${idx})">حذف</button>
+                        </div>
+                    </div>`;
+        }
+        
+        const qty = item.quantity || 1;
+        const itemTotal = item.price * qty;
         total += itemTotal;
+        
         return `
             <div class="cart-item">
                 <div class="cart-item-info">
@@ -1298,7 +1329,7 @@ function renderCart() {
                 </div>
                 <div class="cart-item-actions">
                     <button class="cart-qty-btn" onclick="changeQuantity(${idx}, -1)">-</button>
-                    <span class="cart-item-quantity">${item.quantity || 1}</span>
+                    <span class="cart-item-quantity">${qty}</span>
                     <button class="cart-qty-btn" onclick="changeQuantity(${idx}, 1)">+</button>
                     <button class="cart-remove-btn" onclick="removeFromCart(${idx})">حذف</button>
                 </div>
@@ -1306,6 +1337,10 @@ function renderCart() {
             </div>
         `;
     }).join('');
+    
+    if (hasError) {
+        showNotif('برخی آیتم‌های سبد خرید مشکل دارند. آنها را حذف کنید.', '⚠️');
+    }
     
     if (totalContainer) {
         totalContainer.innerHTML = `<span>جمع کل:</span> ${total.toLocaleString()} تومان`;
