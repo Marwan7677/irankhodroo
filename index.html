@@ -560,7 +560,7 @@ footer {
     font-size: 0.8rem;
 }
 
-/* ==================== مودال‌های اصلی (اصلاح شده) ==================== */
+/* ==================== مودال‌های اصلی ==================== */
 .modal {
     display: none;
     position: fixed;
@@ -587,14 +587,8 @@ footer {
 }
 
 @keyframes modalFadeIn {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
 }
 
 .modal-content h2, .modal-content h3 {
@@ -681,10 +675,13 @@ footer {
     align-items: center;
     padding: 15px 0;
     border-bottom: 1px solid rgba(255,255,255,0.08);
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .cart-item-info {
     flex: 2;
+    min-width: 120px;
 }
 
 .cart-item-name {
@@ -700,7 +697,7 @@ footer {
 .cart-item-actions {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
 }
 
 .cart-qty-btn {
@@ -727,7 +724,7 @@ footer {
 .cart-item-total {
     font-weight: 700;
     color: var(--red);
-    min-width: 100px;
+    min-width: 120px;
     text-align: left;
 }
 
@@ -838,6 +835,26 @@ footer {
 }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
+/* دکمه ریست سبد خرید (اضطراری) */
+.reset-cart-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(200,16,46,0.8);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    padding: 8px 16px;
+    font-size: 12px;
+    cursor: pointer;
+    z-index: 999;
+    font-family: 'Vazirmatn', sans-serif;
+    backdrop-filter: blur(5px);
+}
+.reset-cart-btn:hover {
+    background: var(--red);
+}
+
 /* ریسپانسیو */
 @media (max-width: 768px) {
     header { padding: 0 20px; }
@@ -852,8 +869,9 @@ footer {
     .products-section, .presale-section, .payment-section, .features-section { padding: 40px 20px; }
     .hero { padding-top: 120px; }
     .modal-content { padding: 24px; margin: 16px; width: calc(100% - 32px); }
-    .cart-item { flex-direction: column; gap: 10px; align-items: flex-start; }
+    .cart-item { flex-direction: column; align-items: flex-start; }
     .cart-item-total { text-align: right; width: 100%; }
+    .reset-cart-btn { bottom: 10px; left: 10px; font-size: 10px; padding: 6px 12px; }
 }
 </style>
 </head>
@@ -1002,7 +1020,7 @@ footer {
     <div class="footer-bottom"><div>© ۱۴۰۵ ایران خودرو. تمام حقوق محفوظ است.</div><div style="display:flex;gap:20px"><span>حریم خصوصی</span><span>شرایط استفاده</span><span style="color:#60CCFF">💎 TON Payments Enabled</span></div></div>
 </footer>
 
-<!-- ==================== مودال ورود/ثبت‌نام (اصلاح شده) ==================== -->
+<!-- ==================== مودال ورود/ثبت‌نام ==================== -->
 <div id="authModal" class="modal">
     <div class="modal-content">
         <span class="close-modal" onclick="closeModal('authModal')">&times;</span>
@@ -1026,7 +1044,7 @@ footer {
     </div>
 </div>
 
-<!-- ==================== مودال سبد خرید (اصلاح شده) ==================== -->
+<!-- ==================== مودال سبد خرید ==================== -->
 <div id="cartModal" class="modal">
     <div class="modal-content">
         <span class="close-modal" onclick="closeModal('cartModal')">&times;</span>
@@ -1037,6 +1055,9 @@ footer {
         <button class="modal-btn modal-btn-secondary" onclick="closeModal('cartModal')" style="margin-top:10px;">✖️ بستن</button>
     </div>
 </div>
+
+<!-- دکمه ریست سبد خرید (برای مواقع اضطراری) -->
+<button class="reset-cart-btn" onclick="resetCart()">🗑️ ریست سبد خرید</button>
 
 <div id="notification" class="notification">
     <span class="notif-icon" id="notifIcon">✅</span>
@@ -1054,9 +1075,26 @@ const STORE_WALLET = 'UQCpm9nRpvM3V7TGr5TUV8LKw2la-hYXKhP-txV_AjEW2mjq';
 
 // ==================== متغیرهای سراسری ====================
 let currentUser = null;
-let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+let cart = [];
 let currentTonRate = 298500;
 let lastRateUpdate = 0;
+
+// بارگذاری سبد خرید از localStorage
+function loadCartFromStorage() {
+    const savedCart = localStorage.getItem('cart');
+    if (savedCart) {
+        try {
+            cart = JSON.parse(savedCart);
+            // اعتبارسنجی آیتم‌های سبد خرید
+            cart = cart.filter(item => item && item.price && item.price > 0 && item.name);
+        } catch(e) {
+            cart = [];
+        }
+    } else {
+        cart = [];
+    }
+    updateCartBadge();
+}
 
 // ==================== توابع کمکی ====================
 function showNotif(text, icon = '✅') {
@@ -1068,11 +1106,22 @@ function showNotif(text, icon = '✅') {
 }
 
 function openModal(id) { 
-    document.getElementById(id).style.display = 'flex'; 
+    const modal = document.getElementById(id);
+    if (modal) modal.style.display = 'flex'; 
 }
 
 function closeModal(id) { 
-    document.getElementById(id).style.display = 'none'; 
+    const modal = document.getElementById(id);
+    if (modal) modal.style.display = 'none'; 
+}
+
+// ریست سبد خرید (برای مواقع اضطراری)
+function resetCart() {
+    cart = [];
+    localStorage.removeItem('cart');
+    updateCartBadge();
+    renderCart();
+    showNotif('سبد خرید با موفقیت ریست شد', '🗑️');
 }
 
 // ==================== تیکر ====================
@@ -1119,22 +1168,27 @@ async function fetchTonRate() {
         const tonUsd = data['the-open-network']?.usd || 2.5;
         currentTonRate = tonUsd * 60000;
         lastRateUpdate = Date.now();
-        document.getElementById('tonRate').innerHTML = `۱ TON ≈ ${currentTonRate.toLocaleString()} تومان`;
+        const rateEl = document.getElementById('tonRate');
+        if (rateEl) rateEl.innerHTML = `۱ TON ≈ ${currentTonRate.toLocaleString()} تومان`;
     } catch(e) {
         console.error('خطا در دریافت نرخ TON:', e);
-        document.getElementById('tonRate').innerHTML = `۱ TON ≈ ۲۹۸,۵۰۰ تومان`;
+        const rateEl = document.getElementById('tonRate');
+        if (rateEl) rateEl.innerHTML = `۱ TON ≈ ۲۹۸,۵۰۰ تومان`;
     }
 }
 fetchTonRate();
 setInterval(fetchTonRate, 60000);
 
 function calculateTon() {
-    const toman = parseFloat(document.getElementById('tomanAmount').value.replace(/,/g, ''));
+    const tomanInput = document.getElementById('tomanAmount');
+    const tonOutput = document.getElementById('tonAmount');
+    if (!tomanInput || !tonOutput) return;
+    const toman = parseFloat(tomanInput.value.replace(/,/g, ''));
     if (!isNaN(toman) && toman > 0) {
         const ton = (toman / currentTonRate).toFixed(4);
-        document.getElementById('tonAmount').value = ton + ' TON';
+        tonOutput.value = ton + ' TON';
     } else {
-        document.getElementById('tonAmount').value = '';
+        tonOutput.value = '';
     }
 }
 
@@ -1151,7 +1205,7 @@ async function handleLogin() {
         showNotif(`خوش آمدید ${currentUser.email?.split('@')[0]} 👋`, '✅');
         closeModal('authModal');
         updateAuthUI();
-        renderCart(); // رفرش سبد خرید
+        renderCart();
     } catch(e) { showNotif(e.message, '❌'); }
 }
 
@@ -1185,6 +1239,7 @@ async function logout() {
 
 function updateAuthUI() {
     const btn = document.getElementById('btnLogin');
+    if (!btn) return;
     if (currentUser) {
         btn.innerText = `👤 ${currentUser.email?.split('@')[0]}`;
         btn.onclick = () => { if(confirm('آیا می‌خواهید خارج شوید؟')) logout(); };
@@ -1195,18 +1250,22 @@ function updateAuthUI() {
 }
 
 // تب‌های ورود/ثبت‌نام
-document.getElementById('loginTabBtn')?.addEventListener('click', () => {
-    document.getElementById('loginForm').style.display = 'block';
-    document.getElementById('registerForm').style.display = 'none';
-    document.getElementById('loginTabBtn').classList.add('active');
-    document.getElementById('registerTabBtn').classList.remove('active');
-});
-document.getElementById('registerTabBtn')?.addEventListener('click', () => {
-    document.getElementById('loginForm').style.display = 'none';
-    document.getElementById('registerForm').style.display = 'block';
-    document.getElementById('registerTabBtn').classList.add('active');
-    document.getElementById('loginTabBtn').classList.remove('active');
-});
+const loginTab = document.getElementById('loginTabBtn');
+const registerTab = document.getElementById('registerTabBtn');
+if (loginTab && registerTab) {
+    loginTab.addEventListener('click', () => {
+        document.getElementById('loginForm').style.display = 'block';
+        document.getElementById('registerForm').style.display = 'none';
+        loginTab.classList.add('active');
+        registerTab.classList.remove('active');
+    });
+    registerTab.addEventListener('click', () => {
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('registerForm').style.display = 'block';
+        registerTab.classList.add('active');
+        loginTab.classList.remove('active');
+    });
+}
 
 // ==================== محصولات ====================
 const productsData = [
@@ -1252,10 +1311,10 @@ function filterProducts(category) {
         card.style.display = (category === 'all' || card.dataset.cat === category) ? 'block' : 'none';
     });
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    event.target.classList.add('active');
+    if (event && event.target) event.target.classList.add('active');
 }
 
-// ==================== سبد خرید (اصلاح شده) ====================
+// ==================== سبد خرید ====================
 function updateCartBadge() {
     const total = cart.reduce((sum, i) => sum + (i.quantity || 1), 0);
     const badge = document.getElementById('cartBadge');
@@ -1263,7 +1322,6 @@ function updateCartBadge() {
 }
 
 function addToCart(id, name, price) {
-    // اعتبارسنجی قیمت
     if (isNaN(price) || price <= 0) {
         console.error('قیمت نامعتبر:', price);
         showNotif('خطا در افزودن محصول به سبد', '❌');
@@ -1274,12 +1332,7 @@ function addToCart(id, name, price) {
     if (existing) {
         existing.quantity = (existing.quantity || 1) + 1;
     } else {
-        cart.push({ 
-            id: id, 
-            name: name, 
-            price: price,
-            quantity: 1 
-        });
+        cart.push({ id: id, name: name, price: price, quantity: 1 });
     }
     localStorage.setItem('cart', JSON.stringify(cart));
     updateCartBadge();
@@ -1287,7 +1340,6 @@ function addToCart(id, name, price) {
     renderCart();
 }
 
-function renderCart() {
 function renderCart() {
     const container = document.getElementById('cartItemsList');
     const totalContainer = document.getElementById('cartTotalDisplay');
@@ -1303,10 +1355,9 @@ function renderCart() {
     let hasError = false;
     
     container.innerHTML = cart.map((item, idx) => {
-        // اعتبارسنجی هر آیتم
         if (!item.price || isNaN(item.price) || item.price <= 0) {
             hasError = true;
-            return `<div class="cart-item" style="background: rgba(200,16,46,0.2);">
+            return `<div class="cart-item" style="background: rgba(200,16,46,0.2); border-radius: 10px; padding: 10px;">
                         <div class="cart-item-info">
                             <div class="cart-item-name">${item.name || 'نامشخص'}</div>
                             <div class="cart-item-price" style="color: red;">خطا در قیمت - حذف کنید</div>
@@ -1348,6 +1399,7 @@ function renderCart() {
 }
 
 function changeQuantity(idx, delta) {
+    if (!cart[idx]) return;
     const newQty = (cart[idx].quantity || 1) + delta;
     if (newQty <= 0) {
         cart.splice(idx, 1);
@@ -1413,12 +1465,16 @@ async function payWithTon() {
         openModal('authModal');
         return;
     }
-    const toman = parseFloat(document.getElementById('tomanAmount').value);
+    const tomanInput = document.getElementById('tomanAmount');
+    const walletInput = document.getElementById('walletAddress');
+    if (!tomanInput || !walletInput) return;
+    
+    const toman = parseFloat(tomanInput.value);
     if (!toman || toman <= 0) {
         showNotif('لطفاً مبلغ را وارد کنید', '⚠️');
         return;
     }
-    const wallet = document.getElementById('walletAddress').value;
+    const wallet = walletInput.value;
     if (!wallet) {
         showNotif('لطفاً آدرس کیف پول TON خود را وارد کنید', '⚠️');
         return;
@@ -1469,12 +1525,16 @@ async function loadSession() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    loadCartFromStorage();
     loadSession();
     loadProducts();
     loadPresale();
-    updateCartBadge();
     renderCart();
-    document.getElementById('cartBtn').onclick = () => { renderCart(); openModal('cartModal'); };
+    
+    const cartBtn = document.getElementById('cartBtn');
+    if (cartBtn) {
+        cartBtn.onclick = () => { renderCart(); openModal('cartModal'); };
+    }
 });
 
 // توابع گلوبال برای استفاده در onclick
@@ -1490,6 +1550,7 @@ window.openModal = openModal;
 window.calculateTon = calculateTon;
 window.payWithTon = payWithTon;
 window.showNotif = showNotif;
+window.resetCart = resetCart;
 </script>
 </body>
 </html>
