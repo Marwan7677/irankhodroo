@@ -1,5 +1,5 @@
 [project]
-name = "index.py"
+name = "app.py"
 version = "0.1.0"
 requires-python = ">=3.9"
 
