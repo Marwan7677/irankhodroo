@@ -1,7 +1,7 @@
 {
   "functions": {
     "index.py": {
-      "runtime": "vercel-python@3.9"
+      "runtime": "@vercel-python@3.9"
     }
   },
   "routes": [
