@@ -6,13 +6,13 @@
     },
     // مثال برای Python:
     // "api/**/*.py": {
-    //   "runtime": "@vercel/python@3.12"
+    //   "runtime": "@vercel/python@3.9"
     // }
   },
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/api/index.py"
+      "dest": "/api/app.py"
     }
   ]
 }
