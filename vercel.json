@@ -1,10 +1,18 @@
 {
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/api/index" }
-  ],
+  "version": 2,
   "functions": {
-    "api/index.py": {
-      "runtime": "@vercel/python"
+    "api/**/*.py": {
+      "runtime": "vercel/node@20.x"
+    },
+    // مثال برای Python:
+    // "api/**/*.py": {
+    //   "runtime": "@vercel/python@3.12"
+    // }
+  },
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/api/index.py"
     }
-  }
+  ]
 }
