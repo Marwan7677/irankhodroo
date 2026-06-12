@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>پنل مدیریت | ایران خودرو</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js"></script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+    font-family: 'Vazirmatn', sans-serif;
+    background: #0A0A0F;
+    color: #F5F5FF;
+    direction: rtl;
+}
+.admin-container { display: flex; min-height: 100vh; }
+.sidebar {
+    width: 260px;
+    background: #12121A;
+    border-left: 1px solid rgba(255,255,255,0.08);
+    padding: 30px 20px;
+    position: fixed;
+    height: 100vh;
+}
+.sidebar h2 { color: #C8102E; margin-bottom: 30px; }
+.sidebar nav a {
+    display: block;
+    padding: 12px 16px;
+    color: #8888AA;
+    text-decoration: none;
+    border-radius: 10px;
+    margin-bottom: 8px;
+}
+.sidebar nav a:hover, .sidebar nav a.active { background: rgba(200,16,46,0.15); color: #C8102E; }
+.main-content {
+    flex: 1;
+    margin-right: 260px;
+    padding: 30px;
+}
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 30px;
+}
+.stat-card {
+    background: #12121A;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+}
+.stat-value { font-size: 1.8rem; font-weight: 800; color: #C8102E; }
+.stat-label { font-size: 0.8rem; color: #8888AA; margin-top: 6px; }
+.section-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 25px 0 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+table {
+    width: 100%;
+    background: #12121A;
+    border-radius: 16px;
+    overflow: auto;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 12px 16px;
+    text-align: right;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+th { background: #1A1A28; color: #C8102E; }
+.status-paid { background: rgba(0,200,80,0.2); color: #00C851; padding: 4px 10px; border-radius: 20px; display: inline-block; }
+.status-pending { background: rgba(255,140,0,0.2); color: #FF8C00; padding: 4px 10px; border-radius: 20px; display: inline-block; }
+.status-shipped { background: rgba(0,150,255,0.2); color: #0096FF; padding: 4px 10px; border-radius: 20px; display: inline-block; }
+.add-btn, .action-btn {
+    background: #C8102E;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 5px;
+}
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+.modal-content {
+    background: #12121A;
+    border-radius: 24px;
+    padding: 30px;
+    width: 90%;
+    max-width: 500px;
+}
+.modal-content input, .modal-content select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    background: #1A1A28;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    color: white;
+}
+.logout-btn {
+    background: transparent;
+    border: 1px solid #C8102E;
+    color: #C8102E;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 30px;
+    width: 100%;
+}
+select, button { font-family: inherit; }
+</style>
+</head>
+<body>
+<div class="admin-container">
+    <aside class="sidebar">
+        <h2>🚗 پنل مدیریت</h2>
+        <nav>
+            <a href="#" class="active" onclick="showSection('dashboard')">📊 داشبورد</a>
+            <a href="#" onclick="showSection('products')">🚗 محصولات</a>
+            <a href="#" onclick="showSection('orders')">📦 سفارشات</a>
+            <a href="#" onclick="showSection('ton')">💎 تراکنش‌های TON</a>
+        </nav>
+        <button class="logout-btn" onclick="logout()">🚪 خروج</button>
+    </aside>
+    <main class="main-content">
+        <div id="dashboardSection">
+            <div class="stats-grid">
+                <div class="stat-card"><div class="stat-value" id="statProducts">0</div><div class="stat-label">محصولات</div></div>
+                <div class="stat-card"><div class="stat-value" id="statOrders">0</div><div class="stat-label">سفارشات</div></div>
+                <div class="stat-card"><div class="stat-value" id="statUsers">0</div><div class="stat-label">کاربران</div></div>
+                <div class="stat-card"><div class="stat-value" id="statSales">0</div><div class="stat-label">فروش کل</div></div>
+            </div>
+        </div>
+        <div id="productsSection" style="display:none">
+            <div class="section-title">مدیریت محصولات</div>
+            <button class="add-btn" onclick="showProductModal()">➕ افزودن محصول</button>
+            <table>
+                <thead><tr><th>ID</th><th>نام</th><th>قیمت</th><th>تخفیف</th><th>موجودی</th><th>عملیات</th></tr></thead>
+                <tbody id="productsTable"></tbody>
+            </table>
+        </div>
+        <div id="ordersSection" style="display:none">
+            <div class="section-title">مدیریت سفارشات</div>
+            <table>
+                <thead><tr><th>ID</th><th>کاربر</th><th>مبلغ</th><th>وضعیت پرداخت</th><th>وضعیت ارسال</th><th>روش پرداخت</th><th>تاریخ</th><th>عملیات</th></tr></thead>
+                <tbody id="ordersTable"></tbody>
+            </table>
+        </div>
+        <div id="tonSection" style="display:none">
+            <div class="section-title">تراکنش‌های TON</div>
+            <table>
+                <thead><tr><th>شناسه</th><th>سفارش</th><th>مقدار TON</th><th>وضعیت</th><th>تاریخ</th></tr></thead>
+                <tbody id="tonTable"></tbody>
+            </table>
+        </div>
+    </main>
+</div>
+<div id="productModal" class="modal">
+    <div class="modal-content">
+        <h3>افزودن/ویرایش محصول</h3>
+        <input type="text" id="productName" placeholder="نام فارسی">
+        <input type="text" id="productNameEn" placeholder="نام انگلیسی">
+        <input type="number" id="productPrice" placeholder="قیمت (تومان)">
+        <input type="number" id="productDiscount" placeholder="تخفیف درصد" value="0">
+        <input type="number" id="productStock" placeholder="موجودی" value="0">
+        <select id="productCategory"><option value="sedan">سواری</option><option value="suv">شاسی‌بلند</option><option value="electric">برقی</option></select>
+        <button class="add-btn" onclick="saveProduct()">ذخیره</button>
+        <button class="action-btn" onclick="closeProductModal()">انصراف</button>
+    </div>
+</div>
+<script type="module">
+import { supabase, isAdmin, getProducts, createProduct, updateProduct, deleteProduct, getOrders, getTonTransactions, getStats, updateOrderStatus } from './supabase-client.js';
+
+let editingProductId = null;
+
+async function checkAdmin() {
+    const admin = await isAdmin();
+    if (!admin) window.location.href = '/index.html';
+}
+window.showSection = (section) => {
+    document.getElementById('dashboardSection').style.display = section === 'dashboard' ? 'block' : 'none';
+    document.getElementById('productsSection').style.display = section === 'products' ? 'block' : 'none';
+    document.getElementById('ordersSection').style.display = section === 'orders' ? 'block' : 'none';
+    document.getElementById('tonSection').style.display = section === 'ton' ? 'block' : 'none';
+    if (section === 'dashboard') loadStats();
+    if (section === 'products') loadProducts();
+    if (section === 'orders') loadOrders();
+    if (section === 'ton') loadTonTransactions();
+};
+async function loadStats() {
+    const stats = await getStats();
+    document.getElementById('statProducts').innerText = stats.products;
+    document.getElementById('statOrders').innerText = stats.orders;
+    document.getElementById('statUsers').innerText = stats.users;
+    document.getElementById('statSales').innerText = stats.sales.toLocaleString() + ' تومان';
+}
+async function loadProducts() {
+    const products = await getProducts();
+    document.getElementById('productsTable').innerHTML = products.map(p => `
+        <tr><td>${p.id}</td><td>${p.name}</td><td>${p.price.toLocaleString()}</td><td>${p.discount_percent}%</td><td>${p.stock}</td>
+        <td><button class="action-btn" onclick="editProduct(${p.id})">✏️</button> <button class="action-btn" onclick="deleteProduct(${p.id})">🗑️</button></td>
+    `).join('');
+}
+async function loadOrders() {
+    const orders = await getOrders();
+    document.getElementById('ordersTable').innerHTML = orders.map(o => `
+        <tr><td>${o.id}</td><td>${o.user_id.substring(0,8)}...</td><td>${o.total_amount.toLocaleString()}</td>
+        <td><span class="status-${o.payment_status}">${o.payment_status === 'paid' ? 'پرداخت شده' : 'در انتظار'}</span></td>
+        <td><span class="status-${o.status}">${o.status === 'shipped' ? 'ارسال شده' : 'در انتظار'}</span></td>
+        <td>${o.payment_method === 'ton' ? 'TON' : 'بانک'}</td>
+        <td>${new Date(o.created_at).toLocaleDateString('fa-IR')}</td>
+        <td>
+            ${o.payment_status !== 'paid' ? `<button class="action-btn" onclick="markPaid(${o.id})">✓ تایید پرداخت</button>` : ''}
+            ${o.status !== 'shipped' ? `<button class="action-btn" onclick="markShipped(${o.id})">🚚 ارسال شد</button>` : ''}
+        </td>
+    `).join('');
+}
+window.markPaid = async (orderId) => {
+    await updateOrderStatus(orderId, 'paid');
+    loadOrders();
+    alert('وضعیت پرداخت به "پرداخت شده" تغییر یافت');
+};
+window.markShipped = async (orderId) => {
+    await updateOrderStatus(orderId, 'paid', 'shipped');
+    loadOrders();
+    alert('وضعیت ارسال به "ارسال شده" تغییر یافت');
+};
+async function loadTonTransactions() {
+    const txs = await getTonTransactions();
+    document.getElementById('tonTable').innerHTML = txs.map(t => `
+        <tr><td>${t.id.substring(0,8)}...</td><td>${t.order_id || '-'}</td><td>${t.amount_ton} TON</td>
+        <td><span class="status-${t.status}">${t.status === 'completed' ? 'تکمیل شده' : t.status}</span></td>
+        <td>${new Date(t.created_at).toLocaleDateString('fa-IR')}</td>
+    `).join('');
+}
+window.showProductModal = () => { editingProductId = null; document.getElementById('productModal').style.display = 'flex'; };
+window.closeProductModal = () => { document.getElementById('productModal').style.display = 'none'; };
+window.saveProduct = async () => {
+    const data = {
+        name: document.getElementById('productName').value,
+        name_en: document.getElementById('productNameEn').value,
+        price: parseInt(document.getElementById('productPrice').value),
+        discount_percent: parseInt(document.getElementById('productDiscount').value),
+        stock: parseInt(document.getElementById('productStock').value),
+        category: document.getElementById('productCategory').value
+    };
+    if (editingProductId) await updateProduct(editingProductId, data);
+    else await createProduct(data);
+    closeProductModal();
+    loadProducts();
+};
+window.editProduct = async (id) => {
+    const products = await getProducts();
+    const p = products.find(x => x.id === id);
+    if (p) {
+        editingProductId = id;
+        document.getElementById('productName').value = p.name;
+        document.getElementById('productNameEn').value = p.name_en;
+        document.getElementById('productPrice').value = p.price;
+        document.getElementById('productDiscount').value = p.discount_percent;
+        document.getElementById('productStock').value = p.stock;
+        document.getElementById('productCategory').value = p.category;
+        document.getElementById('productModal').style.display = 'flex';
+    }
+};
+window.deleteProduct = async (id) => {
+    if (confirm('حذف شود؟')) await deleteProduct(id);
+    loadProducts();
+};
+window.logout = async () => { await supabase.auth.signOut(); window.location.href = '/index.html'; };
+checkAdmin();
+loadStats();
+</script>
+</body>
+</html>

@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ایران خودرو | فروشگاه رسمی</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.min.js"></script>
+<!-- TonConnect UI CDN -->
+<script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+<style>
+:root {
+    --red: #C8102E;
+    --red-dark: #9B0020;
+    --gold: #D4A017;
+    --dark: #0A0A0F;
+    --dark2: #12121A;
+    --dark3: #1A1A28;
+    --gray: #8888AA;
+    --white: #F5F5FF;
+    --ton: #0088CC;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+    font-family: 'Vazirmatn', sans-serif;
+    background: var(--dark);
+    color: var(--white);
+    overflow-x: hidden;
+}
+header {
+    position: fixed; top:0; left:0; right:0;
+    background: rgba(10,10,15,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 0 40px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100;
+}
+.logo-icon {
+    width: 44px; height: 44px;
+    background: linear-gradient(135deg, var(--red), var(--red-dark));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    color: white;
+}
+.logo-text { font-weight: 800; font-size: 1.2rem; }
+.logo-sub { font-size: 0.65rem; color: var(--gray); margin-top: -2px; }
+.header-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: white; }
+nav { display: flex; gap: 8px; }
+nav a {
+    color: var(--gray);
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+}
+nav a:hover, nav a.active { color: var(--red); background: rgba(200,16,46,0.1); }
+.btn-login {
+    padding: 8px 20px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+}
+.btn-cart {
+    position: relative;
+    width: 40px; height: 40px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+.cart-badge {
+    position: absolute; top: -6px; right: -6px;
+    background: var(--gold);
+    color: black;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.hero {
+    min-height: 100vh;
+    padding-top: 70px;
+    display: flex;
+    align-items: center;
+    padding: 70px 40px 0;
+}
+.hero-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+}
+.hero-title {
+    font-size: 3rem;
+    font-weight: 900;
+    margin-bottom: 20px;
+}
+.hero-title .accent { color: var(--red); }
+.hero-title .gold { color: var(--gold); }
+.hero-desc { color: var(--gray); margin-bottom: 30px; line-height: 1.8; }
+.btn-primary {
+    padding: 14px 28px;
+    background: linear-gradient(135deg, var(--red), var(--red-dark));
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+.btn-secondary {
+    padding: 14px 28px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 12px;
+    color: white;
+    cursor: pointer;
+}
+.hero-stats {
+    display: flex;
+    gap: 30px;
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+.stat-num { font-size: 1.8rem; font-weight: 800; }
+.stat-num span { color: var(--red); }
+.stat-label { font-size: 0.75rem; color: var(--gray); }
+.hero-car-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    padding: 30px;
+}
+.car-display {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 6rem;
+}
+.car-name { font-size: 1.3rem; font-weight: 700; margin: 15px 0 10px; }
+.car-price { font-size: 1.3rem; font-weight: 800; color: var(--red); }
+.car-price-old { font-size: 0.8rem; text-decoration: line-through; color: var(--gray); }
+.products-section {
+    padding: 60px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.section-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    margin-bottom: 24px;
+}
+.section-title span { color: var(--red); }
+.products-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+.tab {
+    padding: 8px 20px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 30px;
+    color: var(--gray);
+    cursor: pointer;
+}
+.tab.active {
+    background: var(--red);
+    color: white;
+    border-color: var(--red);
+}
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+.product-card {
+    background: var(--dark2);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+.product-card:hover { transform: translateY(-5px); border-color: var(--red); }
+.product-img {
+    height: 180px;
+    background: linear-gradient(135deg, var(--dark3), var(--dark));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+    position: relative;
+}
+.product-badges {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+}
+.badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    background: rgba(0,0,0,0.6);
+}
+.badge-sale { background: var(--red); color: white; }
+.badge-pre { background: var(--gold); color: black; }
+.product-info { padding: 20px; }
+.product-name { font-size: 1.1rem; font-weight: 700; }
+.product-specs { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0; }
+.spec-tag {
+    font-size: 0.7rem;
+    background: var(--dark3);
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+.price-main { font-size: 1.2rem; font-weight: 800; color: var(--red); }
+.price-old { font-size: 0.75rem; text-decoration: line-through; color: var(--gray); }
+.ton-price {
+    background: rgba(0,136,204,0.1);
+    padding: 8px 12px;
+    border-radius: 10px;
+    margin: 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.btn-buy {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(135deg, var(--red), var(--red-dark));
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+.payment-section {
+    padding: 60px 40px;
+    background: linear-gradient(135deg, #061525, #0A1E35);
+}
+.payment-banner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+}
+.ton-widget {
+    background: var(--dark);
+    border-radius: 24px;
+    padding: 30px;
+    border: 1px solid rgba(0,136,204,0.3);
+}
+.ton-rate-value { font-size: 1.5rem; font-weight: 800; color: #60CCFF; }
+.ton-input {
+    width: 100%;
+    padding: 12px;
+    background: var(--dark3);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    color: white;
+    margin: 10px 0;
+}
+.btn-ton-pay {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--ton), #0066AA);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 15px;
+}
+#ton-connect-button {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+}
+footer {
+    background: var(--dark2);
+    padding: 50px 40px 30px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+.footer-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+}
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.8);
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+.modal-content {
+    background: var(--dark2);
+    border-radius: 24px;
+    padding: 30px;
+    width: 90%;
+    max-width: 500px;
+}
+.modal-content input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    background: var(--dark3);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    color: white;
+}
+.close-modal {
+    float: left;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+.tab-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.tab-btn {
+    flex: 1;
+    padding: 10px;
+    background: transparent;
+    border: none;
+    color: var(--gray);
+    cursor: pointer;
+}
+.tab-btn.active {
+    color: var(--red);
+    border-bottom: 2px solid var(--red);
+}
+.notification {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: var(--dark2);
+    border: 1px solid #00C851;
+    border-radius: 12px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transform: translateX(400px);
+    transition: transform 0.3s;
+    z-index: 1000;
+}
+.notification.show { transform: translateX(0); }
+@media (max-width: 768px) {
+    .hero-content { grid-template-columns: 1fr; }
+    .products-grid { grid-template-columns: 1fr; }
+    .payment-banner { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
+    nav { display: none; }
+    header { padding: 0 20px; }
+    .hero, .products-section, .payment-section { padding: 60px 20px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <a href="#" class="header-logo">
+        <div class="logo-icon">IK</div>
+        <div><div class="logo-text">ایران خودرو</div><div class="logo-sub">IKCO STORE</div></div>
+    </a>
+    <nav>
+        <a href="#" class="active">خانه</a>
+        <a href="#products">محصولات</a>
+        <a href="#payment">پرداخت ارزی</a>
+    </nav>
+    <div class="header-actions">
+        <button class="btn-login" id="btnLogin">ورود / ثبت‌نام</button>
+        <div class="btn-cart" id="cartBtn">🛒<div class="cart-badge" id="cartBadge">0</div></div>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="hero-content">
+        <div>
+            <h1 class="hero-title">فروشگاه رسمی<br><span class="accent">ایران خودرو</span><br><span class="gold">با قیمت استثنایی</span></h1>
+            <p class="hero-desc">خرید مستقیم از کارخانه، پرداخت با تومان یا TON Coin، ضمانت اصالت و گارانتی ۳ ساله</p>
+            <div><button class="btn-primary" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">مشاهده محصولات</button>
+            <button class="btn-secondary" onclick="document.getElementById('payment').scrollIntoView({behavior:'smooth'})">پرداخت با TON</button></div>
+            <div class="hero-stats">
+                <div class="stat"><div class="stat-num">۲۰<span>+</span></div><div class="stat-label">مدل خودرو</div></div>
+                <div class="stat"><div class="stat-num">۵۰<span>K+</span></div><div class="stat-label">مشتری راضی</div></div>
+                <div class="stat"><div class="stat-num">TON</div><div class="stat-label">پرداخت ارزی</div></div>
+            </div>
+        </div>
+        <div class="hero-car-card">
+            <div class="car-display">🚗</div>
+            <div class="car-name">پژو پارس سال</div>
+            <div class="car-price">۱,۸۵۰,۰۰۰,۰۰۰ تومان</div>
+            <div class="car-price-old">۲,۰۰۰,۰۰۰,۰۰۰ تومان</div>
+        </div>
+    </div>
+</section>
+
+<section class="products-section" id="products">
+    <h2 class="section-title">🚗 محصولات <span>ایران خودرو</span></h2>
+    <div class="products-tabs">
+        <button class="tab active" onclick="filterProducts('all')">همه</button>
+        <button class="tab" onclick="filterProducts('sedan')">سواری</button>
+        <button class="tab" onclick="filterProducts('suv')">شاسی‌بلند</button>
+        <button class="tab" onclick="filterProducts('electric')">برقی</button>
+    </div>
+    <div class="products-grid" id="productsGrid"></div>
+</section>
+
+<section class="payment-section" id="payment">
+    <div class="payment-banner">
+        <div>
+            <h2 class="section-title">💎 پرداخت ارزی با <span style="color:#60CCFF">تون‌کوین</span></h2>
+            <p style="color:var(--gray); line-height:1.8;">با استفاده از شبکه TON Blockchain، خودروی خود را با ارز دیجیتال خریداری کنید. امن، سریع و بدون کارمزد اضافه.</p>
+            <div style="margin-top:20px">✔️ پرداخت امن با بلاک‌چین<br>✔️ تسویه آنی در کمتر از ۳ ثانیه<br>✔️ ۳٪ تخفیف برای پرداخت با TON</div>
+        </div>
+        <div class="ton-widget">
+            <div class="ton-rate-value" id="tonRate">Loading...</div>
+            <input type="text" class="ton-input" id="tomanAmount" placeholder="مبلغ به تومان" oninput="calculateTon()">
+            <input type="text" class="ton-input" id="tonAmount" placeholder="مقدار TON" readonly>
+            <div id="ton-connect-button"></div>
+            <button class="btn-ton-pay" onclick="initiateTonPayment()">💎 پرداخت با TON</button>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-grid">
+        <div><div class="logo-icon" style="margin-bottom:10px">IK</div><p style="color:var(--gray)">بزرگ‌ترین خودروساز ایران</p></div>
+        <div><h4>محصولات</h4><ul style="list-style:none"><li>سواری</li><li>شاسی‌بلند</li><li>برقی</li></ul></div>
+        <div><h4>خدمات</h4><ul style="list-style:none"><li>پیش‌فروش</li><li>پرداخت ارزی</li><li>گارانتی</li></ul></div>
+        <div><h4>پشتیبانی</h4><ul style="list-style:none"><li>تماس با ما</li><li>سوالات متداول</li></ul></div>
+    </div>
+    <div style="text-align:center; padding-top:30px; color:var(--gray)">© ۱۴۰۵ ایران خودرو - تمام حقوق محفوظ است</div>
+</footer>
+
+<div id="authModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal('authModal')">&times;</span>
+        <div class="tab-buttons">
+            <button class="tab-btn active" onclick="switchAuthTab('login')">ورود</button>
+            <button class="tab-btn" onclick="switchAuthTab('register')">ثبت‌نام</button>
+        </div>
+        <div id="loginForm">
+            <input type="email" id="loginEmail" placeholder="ایمیل">
+            <input type="password" id="loginPassword" placeholder="رمز عبور">
+            <button class="btn-primary" style="width:100%; margin-top:10px" onclick="handleLogin()">ورود</button>
+        </div>
+        <div id="registerForm" style="display:none">
+            <input type="text" id="regName" placeholder="نام و نام خانوادگی">
+            <input type="email" id="regEmail" placeholder="ایمیل">
+            <input type="text" id="regPhone" placeholder="شماره موبایل">
+            <input type="password" id="regPassword" placeholder="رمز عبور (حداقل ۶ کاراکتر)">
+            <button class="btn-primary" style="width:100%; margin-top:10px" onclick="handleRegister()">ثبت‌نام</button>
+        </div>
+    </div>
+</div>
+
+<div id="cartModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal('cartModal')">&times;</span>
+        <h2>🛒 سبد خرید</h2>
+        <div id="cartItems"></div>
+        <div id="cartTotal" style="font-size:1.2rem; font-weight:800; margin:15px 0"></div>
+        <button class="btn-primary" style="width:100%" onclick="checkout()">تکمیل خرید</button>
+    </div>
+</div>
+
+<div id="notification" class="notification">
+    <span id="notifIcon">✅</span>
+    <span id="notifText"></span>
+</div>
+
+<script type="module">
+import { supabase, getProducts, signIn, signUp, getCurrentUser, signOut, createOrder, getTonRate, createTonTransaction, updateOrderStatus } from './supabase-client.js';
+
+window.supabase = supabase;
+
+let currentUser = null;
+let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+let tonConnector = null;
+let pendingOrderForTon = null; // ذخیره موقت سفارش قبل از پرداخت
+
+function showNotif(text, icon = '✅') {
+    const n = document.getElementById('notification');
+    document.getElementById('notifText').innerText = text;
+    document.getElementById('notifIcon').innerText = icon;
+    n.classList.add('show');
+    setTimeout(() => n.classList.remove('show'), 3000);
+}
+window.showNotif = showNotif;
+
+function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+window.openModal = openModal;
+window.closeModal = (id) => { document.getElementById(id).style.display = 'none'; };
+
+window.switchAuthTab = (tab) => {
+    document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
+    document.getElementById('registerForm').style.display = tab === 'register' ? 'block' : 'none';
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+};
+
+window.handleLogin = async () => {
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    try {
+        const result = await signIn(email, password);
+        currentUser = result.user;
+        localStorage.setItem('user', JSON.stringify(currentUser));
+        showNotif(`خوش آمدید ${currentUser.email}`, '👋');
+        closeModal('authModal');
+        updateAuthUI();
+    } catch(e) { showNotif(e.message, '❌'); }
+};
+
+window.handleRegister = async () => {
+    const name = document.getElementById('regName').value;
+    const email = document.getElementById('regEmail').value;
+    const phone = document.getElementById('regPhone').value;
+    const password = document.getElementById('regPassword').value;
+    try {
+        const result = await signUp(email, password, { name, phone });
+        currentUser = result.user;
+        showNotif('ثبت‌نام موفق!', '✅');
+        closeModal('authModal');
+        updateAuthUI();
+    } catch(e) { showNotif(e.message, '❌'); }
+};
+
+function updateAuthUI() {
+    const btn = document.getElementById('btnLogin');
+    if (currentUser) {
+        btn.innerText = `👤 ${currentUser.email?.split('@')[0]}`;
+        btn.onclick = () => { signOut(); currentUser = null; localStorage.removeItem('user'); updateAuthUI(); showNotif('خارج شدید', '👋'); };
+    } else {
+        btn.innerText = 'ورود / ثبت‌نام';
+        btn.onclick = () => openModal('authModal');
+    }
+}
+
+async function loadProducts() {
+    const products = await getProducts();
+    const rate = await getTonRate();
+    const grid = document.getElementById('productsGrid');
+    if (!grid) return;
+    grid.innerHTML = products.map(p => {
+        const finalPrice = p.price * (100 - (p.discount_percent || 0)) / 100;
+        const tonEst = (finalPrice / rate).toFixed(2);
+        return `<div class="product-card" data-cat="${p.category}">
+            <div class="product-img"><div class="product-badges">${p.discount_percent ? `<span class="badge badge-sale">${p.discount_percent}%</span>` : ''}</div>🚗</div>
+            <div class="product-info">
+                <div class="product-name">${p.name}</div>
+                <div class="product-specs">${p.specs?.map(s => `<span class="spec-tag">${s}</span>`).join('') || ''}</div>
+                <div class="price-main">${finalPrice.toLocaleString()} تومان</div>
+                ${p.discount_percent ? `<div class="price-old">${p.price.toLocaleString()} تومان</div>` : ''}
+                <div class="ton-price">💎 ≈ ${tonEst} TON</div>
+                <button class="btn-buy" onclick="addToCart(${p.id}, '${p.name}', ${finalPrice})">خرید</button>
+            </div>
+        </div>`;
+    }).join('');
+}
+window.filterProducts = (cat) => {
+    document.querySelectorAll('.product-card').forEach(card => {
+        card.style.display = (cat === 'all' || card.dataset.cat === cat) ? 'block' : 'none';
+    });
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+};
+window.addToCart = (id, name, price) => {
+    cart.push({ id, name, price, quantity: 1 });
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartBadge();
+    showNotif(`${name} به سبد خرید اضافه شد`, '🛒');
+};
+function updateCartBadge() {
+    document.getElementById('cartBadge').innerText = cart.reduce((s, i) => s + i.quantity, 0);
+}
+function renderCart() {
+    const container = document.getElementById('cartItems');
+    let total = 0;
+    if (cart.length === 0) { container.innerHTML = 'سبد خرید خالی است'; document.getElementById('cartTotal').innerHTML = ''; return; }
+    container.innerHTML = cart.map((item, idx) => {
+        total += item.price * item.quantity;
+        return `<div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.1)">
+            <div>${item.name} x ${item.quantity}</div>
+            <div>${(item.price * item.quantity).toLocaleString()} تومان</div>
+            <button onclick="removeFromCart(${idx})" style="background:red; border:none; color:white; padding:2px 8px; border-radius:5px">حذف</button>
+        </div>`;
+    }).join('');
+    document.getElementById('cartTotal').innerHTML = `جمع کل: ${total.toLocaleString()} تومان`;
+}
+window.removeFromCart = (idx) => { cart.splice(idx,1); localStorage.setItem('cart', JSON.stringify(cart)); updateCartBadge(); renderCart(); };
+window.checkout = async () => {
+    if (!currentUser) { openModal('authModal'); showNotif('لطفاً ابتدا وارد شوید', '⚠️'); return; }
+    if (cart.length === 0) { showNotif('سبد خرید خالی است', '⚠️'); return; }
+    const total = cart.reduce((s,i) => s + i.price * i.quantity, 0);
+    const order = await createOrder(currentUser.id, cart, total, 'bank');
+    if (order) {
+        showNotif(`سفارش ${order.id} ثبت شد. منتظر تماس کارشناسان ما باشید.`, '✅');
+        cart = [];
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartBadge();
+        closeModal('cartModal');
+    }
+};
+document.getElementById('cartBtn').onclick = () => { renderCart(); openModal('cartModal'); };
+
+window.calculateTon = async () => {
+    const toman = parseFloat(document.getElementById('tomanAmount').value);
+    if (!isNaN(toman)) {
+        const rate = await getTonRate();
+        document.getElementById('tonAmount').value = (toman / rate).toFixed(4) + ' TON';
+    }
+};
+
+// مقداردهی TonConnect
+async function initTonConnect() {
+    if (window.TonConnectUI) {
+        tonConnector = new window.TonConnectUI({
+            manifestUrl: 'https://irankhodroo.netlify.app/tonconnect-manifest.json',
+            buttonRootId: 'ton-connect-button'
+        });
+        // در صورت اتصال کیف پول، می‌توان وضعیت را گرفت
+        tonConnector.onStatusChange(async (wallet) => {
+            if (wallet) {
+                showNotif('کیف پول TON متصل شد', '🔗');
+            }
+        });
+    } else {
+        console.warn("TonConnectUI not loaded");
+    }
+}
+
+window.initiateTonPayment = async () => {
+    if (!currentUser) { openModal('authModal'); showNotif('لطفاً وارد شوید', '⚠️'); return; }
+    const toman = parseFloat(document.getElementById('tomanAmount').value);
+    if (!toman || toman <= 0) { showNotif('مبلغ معتبر به تومان وارد کنید', '⚠️'); return; }
+    
+    // ابتدا یک سفارش با وضعیت pending و payment_method=ton ایجاد می‌کنیم
+    // اما آیتم‌های سبد خرید؟ برای پرداخت مستقیم TON فرض می‌کنیم کاربر یک محصول خاص را می‌خواهد.
+    // برای سادگی، یک آیتم ساختگی به نام "پرداخت ارزی" ایجاد می‌کنیم.
+    const items = [{ id: 999, name: 'پرداخت ارزی', price: toman, quantity: 1 }];
+    const order = await createOrder(currentUser.id, items, toman, 'ton');
+    if (!order) { showNotif('خطا در ثبت سفارش', '❌'); return; }
+    
+    const rate = await getTonRate();
+    const tonAmount = toman / rate;
+    const walletAddress = 'UQCpm9nRpvM3V7TGr5TUV8LKw2la-hYXKhP-txV_AjEW2mjq';
+    const txId = await createTonTransaction(order.id, currentUser.id, toman, tonAmount, walletAddress);
+    
+    // اگر TonConnect متصل باشد، تراکنش واقعی می‌فرستیم
+    if (tonConnector && tonConnector.connected) {
+        try {
+            const transaction = {
+                validUntil: Math.floor(Date.now() / 1000) + 600,
+                messages: [
+                    {
+                        address: walletAddress,
+                        amount: (tonAmount * 1e9).toString(), // TON به nanoton
+                        payload: txId
+                    }
+                ]
+            };
+            const result = await tonConnector.sendTransaction(transaction);
+            if (result) {
+                await updateOrderStatus(order.id, 'paid');
+                showNotif(`پرداخت ${tonAmount.toFixed(4)} TON با موفقیت انجام شد`, '💎');
+            }
+        } catch(e) {
+            showNotif('خطا در ارسال تراکنش: ' + e.message, '❌');
+        }
+    } else {
+        showNotif(`لطفاً کیف پول TON خود را متصل کنید و مبلغ ${tonAmount.toFixed(4)} TON را به آدرس ${walletAddress} ارسال کنید. شناسه تراکنش: ${txId}`, '💎');
+    }
+};
+
+// بارگذاری اولیه
+async function init() {
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) { currentUser = JSON.parse(savedUser); updateAuthUI(); }
+    await loadProducts();
+    updateCartBadge();
+    const rate = await getTonRate();
+    document.getElementById('tonRate').innerText = `۱ TON ≈ ${Math.round(rate).toLocaleString()} تومان`;
+    initTonConnect();
+}
+init();
+</script>
+</body>
+</html>
